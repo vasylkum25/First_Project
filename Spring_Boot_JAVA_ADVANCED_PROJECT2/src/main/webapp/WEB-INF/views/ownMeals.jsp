@@ -26,7 +26,7 @@
 						<td><a href="/meal/${meal.id}">${meal.title}</a></td>
 						<td>${meal.description}</td>
 						<td>${meal.price}</td>
-						<td>${meal.cafe.name}</td>
+						<td><a href="/cafe/${meal.cafe.id}">${meal.cafe.name}</a></td>
 						<td>${meal.weight}</td>
 						<td>${meal.cuisine}</td>
 						<td>

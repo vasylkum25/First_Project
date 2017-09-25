@@ -21,45 +21,49 @@ public class AdminTableController {
 
 	
 	@Autowired
-	private final TableService service;
-	
+	private final TableService tableService;
+	 
 	@ModelAttribute("table")
 	public TableRequest getForm() {
 		return new TableRequest();
 	}
 
 	@Autowired
-	public AdminTableController(TableService service) {
-		this.service = service;
+	public AdminTableController(TableService tableService) {
+		this.tableService = tableService;
 	}
 	
 	@GetMapping
 	public String show(Model model){
-		model.addAttribute("cafes", service.findAllCafes());
-		model.addAttribute("tables", service.findAllTables());
+		model.addAttribute("cafes", tableService.findAllCafes());
+		model.addAttribute("tables", tableService.findAllTables());
 		return "table_add";
 	}
 	
+	@GetMapping("/{id}")
+	public String showTableToDeReserve(Model model, @PathVariable Integer id){
+		
+		return "table_add";
+	}
 	
 	@PostMapping
 	public String save(@ModelAttribute("table") TableRequest request, SessionStatus status){
-		service.save(request);
+		tableService.save(request);
 		return cancel(status);
 	}
 	
 	@GetMapping("/delete/{id}")
 	private String delete(@PathVariable Integer id)
-	{service.delete(id);
+	{tableService.delete(id);
 	return "redirect:/admin/table";
 	}
 	
 	@GetMapping("/update/{id}")
 	public String update(@PathVariable Integer id, Model model) {
-		model.addAttribute("table", service.findOne(id));
+		model.addAttribute("table", tableService.findOne(id));
 		return show(model);
 	}
-	
-	
+		
 	@GetMapping("/cancel")
 	public String cancel(SessionStatus status){
 	status.setComplete();

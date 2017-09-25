@@ -15,25 +15,31 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import kum.entity.Type;
 import kum.model.request.CafeRequest;
 import kum.model.request.CommentRequest;
+import kum.model.request.TableRequest;
 import kum.service.CafeService;
 import kum.service.CommentService;
 import kum.service.OpenCloseService;
+import kum.service.TableService;
 
 @Controller
 @RequestMapping("/cafe")
 @SessionAttributes("cafe")
 public class AdminCafeController {
 
-	@Autowired
-	private CafeService cafeService;
+	private final CafeService cafeService;
+	private final CommentService commentService;
+	private final OpenCloseService openService;
+	private final TableService tableService;
 	
 	@Autowired
-	private CommentService commentService;
-	
-	@Autowired
-	private OpenCloseService openService;
+	public AdminCafeController(CafeService cafeService, CommentService commentService, OpenCloseService openService,
+			TableService tableService) {
+		this.cafeService = cafeService;
+		this.commentService = commentService;
+		this.openService = openService;
+		this.tableService = tableService;
+	}
 
-	
 	@ModelAttribute("cafe")
 	public CafeRequest getForm(){
 		return new CafeRequest();
@@ -60,7 +66,19 @@ public class AdminCafeController {
 		return "cafeindex";
 		}
 	 
-
+	@GetMapping("/{id}/tables")
+	public String showTableByCafeId(@PathVariable Integer id, Model model){
+		model.addAttribute("tables", tableService.findTablesBycafeId(id));
+		return "table";
+	}
+	
+	@GetMapping("/{id}/tables/{id}")
+	public String showOneTableByCafeId(@PathVariable Integer id, Model model){
+		model.addAttribute("table", tableService.reserveOneTableByCafeId(id));
+			return "form_to_reserve_table";
+	}
+	
+//	For comment
 	
 	@ModelAttribute("comment")
 	public CommentRequest getFormComment() {
@@ -72,6 +90,17 @@ public class AdminCafeController {
 		commentService.saveCommentToCafe(commentRequest, id);
 		return "redirect:/cafe/{id}";
 	}
+
+	//	For form to reserv table
 	
+	@ModelAttribute("user")
+	public TableRequest getFormUser() {
+		return new TableRequest();
+	}
 	
+	@PostMapping("/{id}/tables/{id}")
+	public String reserveTable(@ModelAttribute("user") TableRequest tableRequest, Model model, @PathVariable Integer id){
+		tableService.saveUserInTable(tableRequest, id);
+		return  showTableByCafeId(tableService.findOneCafeByTableId(id).getCafe().getId(), model);
+	}
 }

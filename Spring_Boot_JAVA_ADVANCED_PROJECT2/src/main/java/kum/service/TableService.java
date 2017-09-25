@@ -13,7 +13,16 @@ public interface TableService{
 	
 	void save(TableRequest request);
 	
+	void saveUserInTable(TableRequest request, Integer id);
+	
 	TableRequest findOne(Integer id);
 	
 	void delete(Integer id);
+
+	List<Table> findTablesBycafeId(Integer id);
+	
+	TableRequest reserveOneTableByCafeId(Integer id);
+	
+	Table findOneCafeByTableId(Integer id);
+
 }

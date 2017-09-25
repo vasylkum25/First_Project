@@ -24,6 +24,8 @@ public interface CafeService{
 	void delete(Integer id);
 
 	List<CafeIndexView> findAllCafesByUser(String email);
+	
+	
 
 	
 }

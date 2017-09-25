@@ -57,8 +57,8 @@ public class CafeView {
 		this.type = type.name();
 		this.phone = phone;
 		this.web = web;
-		this.open = (open != null) ? open.format(DateTimeFormatter.ofPattern("hh:mm")) : null;
-		this.close = (close != null) ? close.format(DateTimeFormatter.ofPattern("hh:mm")) : null;
+		this.open = (open != null) ? open.format(DateTimeFormatter.ofPattern("HH:mm")) : null;
+		this.close = (close != null) ? close.format(DateTimeFormatter.ofPattern("HH:mm")) : null;
 	}
 
 	public Integer getId() {

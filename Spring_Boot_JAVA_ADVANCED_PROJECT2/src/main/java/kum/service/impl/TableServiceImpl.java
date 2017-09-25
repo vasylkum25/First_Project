@@ -26,6 +26,21 @@ public class TableServiceImpl implements TableService {
 	public List<String> findAllCafes() {
 		return repository.findAllCafes();
 	}
+	@Override
+	public void delete(Integer id) {
+		repository.delete(id);
+		
+	}
+	
+	@Override
+	public List<Table> findAllTables() {
+		return repository.findAllTables();
+	}
+	
+	@Override
+	public List<Table> findTablesBycafeId(Integer id) {
+		return repository.findTablesBycafeId(id);
+	}
 
 	@Override
 	public TableRequest findOne(Integer id) {
@@ -35,6 +50,7 @@ public class TableServiceImpl implements TableService {
 		request.setCafe(table.getCafe());
 		request.setCountOfPeople(Integer.valueOf(table.getCountOfPeople()));
 		request.setIsFree(Boolean.valueOf(table.getIsFree()));
+		request.setNumber(table.getNumber());
 		return request;
 		
 	}
@@ -46,19 +62,43 @@ public class TableServiceImpl implements TableService {
 		table.setCafe(request.getCafe());
 		table.setCountOfPeople(Integer.valueOf(request.getCountOfPeople()));
 		table.setIsFree(Boolean.valueOf(request.getIsFree()));
+		table.setNumber(request.getNumber());
+		repository.save(table);
+	}
+
+
+	@Override
+	public TableRequest reserveOneTableByCafeId(Integer id) {
+		Table table = repository.findOneRequest(id);
+		TableRequest request = new TableRequest();
+		request.setId(table.getId());
+		request.setCafe(table.getCafe());
+		request.setCountOfPeople(Integer.valueOf(table.getCountOfPeople()));
+		request.setIsFree(table.getIsFree());
+		request.setNumber(table.getNumber());
+		table.setIsFree(request.getIsFree());
+		repository.save(table);
+		return request;
+		
+	}
+
+	@Override
+	public Table findOneCafeByTableId(Integer id) {
+		return repository.findOneCafeByTableId(id);
+	}
+
+	@Override
+	public void saveUserInTable(TableRequest request, Integer id) {
+		Table table =repository.findOne(id);
+		table.setId(request.getId());
+		table.setIsFree(Boolean.TRUE);
+		table.setPhone(Integer.valueOf(request.getPhone()));
+		table.setName(request.getName());
 		repository.save(table);
 		
-	}
-
-	@Override
-	public void delete(Integer id) {
-		repository.delete(id);
 		
 	}
-
-	@Override
-	public List<Table> findAllTables() {
-		return repository.findAllTables();
-	} 
+	
+	
 
 }

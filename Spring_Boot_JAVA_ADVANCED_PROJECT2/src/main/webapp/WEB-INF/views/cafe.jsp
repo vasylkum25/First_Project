@@ -16,7 +16,7 @@
 					<td><a href="/cafe/${cafe.id}">${cafe.name}</a></td>
 						<td>${cafe.address}</td>
 						<td>${cafe.shortDescription}</td>
-						<td>${cafe.photoUrl}</td>
+						<td><img src="${cafe.photoUrl}"></td>
 						<td>${cafe.type}</td>
 					</tr>
 					</c:forEach>

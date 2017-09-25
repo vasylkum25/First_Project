@@ -2,6 +2,11 @@
 <div class = "container  mt-3">
 	<div class="row" >
 		<div class = "col-12">
+		<div class="form-group row">
+							<div class="col-10 mr-auto">
+								<a href="/cafe/${oneMeal.cafe.id}/tables"><button class="btn btn-sm btn-outline-success">Table</button></a>
+							</div>
+						</div>
 			<table class= "table table-bordered">
 				<tr>
 					<th class = "text-center">Title</th>

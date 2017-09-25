@@ -12,19 +12,52 @@ public class Table extends AbstractEntity{
 	
 	private boolean isFree;
 	
+	private String number;
+	
+	private String name;
+	
+	private int phone;
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Cafe cafe;
 	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getPhone() {
+		return phone;
+	}
+
+	public void setPhone(int phone) {
+		this.phone = phone;
+	}
+
+	
 	
 
-	public Table(int countOfPeople, boolean isFree, Cafe cafe) {
+	public Table(int countOfPeople, boolean isFree, Cafe cafe, String number) {
 		this.countOfPeople = countOfPeople;
 		this.isFree = isFree;
 		this.cafe = cafe;
+		this.number = number;
 	}
 
 	public Table() {
 	}
+
+	
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
 
 	public int getCountOfPeople() {
 		return countOfPeople;

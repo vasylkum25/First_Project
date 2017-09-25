@@ -1,9 +1,9 @@
 <%@ include file="header.jsp"%>
 <body>
 	
-	
 	<div class="container mt-3">
 			<c:forEach var="cafe" items="${topFifse}">
+	<div class="p-3 mb-2 bg-warning text-white">
 		<div class="row">
 			<div class="col-3">
 					<h3><a href="/cafe/${cafe.id}">${cafe.name}</a></h3>
@@ -18,6 +18,7 @@
 					<h5>${cafe.address}</h5>
 					<h5>${cafe.shortDescription}</h5>
 					<img src="${cafe.photoUrl}">
+			</div>
 			</c:forEach>
 <div>
 <div class="row align-items-end mt-3">
