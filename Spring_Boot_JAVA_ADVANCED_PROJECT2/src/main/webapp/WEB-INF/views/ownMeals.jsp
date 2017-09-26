@@ -38,6 +38,7 @@
 						<td class = "text-center">
 						<a href = "/profile/ownMeal/update/${meal.id}"  class="btn btn-outline-danger btn-sm">Update</a>
 						<a href = "/profile/ownMeal/delete/${meal.id}" class="btn btn-outline-warning btn-sm">Delete</a>
+						<a href="/profile/ownCafe/${meal.cafe.id}/tables"><button class="btn btn-sm btn-outline-success">Table</button></a>
 						</td>
 						</sec:authorize>
 					</tr>

@@ -24,7 +24,6 @@ import kum.service.OpenCloseService;
 public class AdministratorCafeController {
 	
 	private final CafeService cafeService;
-	
 	private final OpenCloseService openService;
 	
 	@Autowired
@@ -80,6 +79,5 @@ public class AdministratorCafeController {
 		status.setComplete();
 		return "redirect:/profile/ownCafe/add";
 	}
-	
 	
 }

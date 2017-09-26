@@ -24,7 +24,7 @@ import kum.service.TableService;
 @Controller
 @RequestMapping("/cafe")
 @SessionAttributes("cafe")
-public class AdminCafeController {
+public class CafeController {
 
 	private final CafeService cafeService;
 	private final CommentService commentService;
@@ -32,7 +32,7 @@ public class AdminCafeController {
 	private final TableService tableService;
 	
 	@Autowired
-	public AdminCafeController(CafeService cafeService, CommentService commentService, OpenCloseService openService,
+	public CafeController(CafeService cafeService, CommentService commentService, OpenCloseService openService,
 			TableService tableService) {
 		this.cafeService = cafeService;
 		this.commentService = commentService;
@@ -66,17 +66,6 @@ public class AdminCafeController {
 		return "cafeindex";
 		}
 	 
-	@GetMapping("/{id}/tables")
-	public String showTableByCafeId(@PathVariable Integer id, Model model){
-		model.addAttribute("tables", tableService.findTablesBycafeId(id));
-		return "table";
-	}
-	
-	@GetMapping("/{id}/tables/{id}")
-	public String showOneTableByCafeId(@PathVariable Integer id, Model model){
-		model.addAttribute("table", tableService.reserveOneTableByCafeId(id));
-			return "form_to_reserve_table";
-	}
 	
 //	For comment
 	
@@ -91,16 +80,28 @@ public class AdminCafeController {
 		return "redirect:/cafe/{id}";
 	}
 
-	//	For form to reserv table
+	//	For form to reserve table
 	
 	@ModelAttribute("user")
 	public TableRequest getFormUser() {
 		return new TableRequest();
 	}
 	
-	@PostMapping("/{id}/tables/{id}")
-	public String reserveTable(@ModelAttribute("user") TableRequest tableRequest, Model model, @PathVariable Integer id){
-		tableService.saveUserInTable(tableRequest, id);
-		return  showTableByCafeId(tableService.findOneCafeByTableId(id).getCafe().getId(), model);
+	@PostMapping("/{idCafe}/tables/{idTable}")
+	public String reserveTable(@ModelAttribute("user") TableRequest tableRequest, Model model, @PathVariable Integer idTable, @PathVariable Integer idCafe){
+		tableService.saveUserInTable(tableRequest, idTable);
+		return  showTableByCafeId(tableService.findOneRequest(idTable).getCafe().getId(), model);
+	}
+	
+	@GetMapping("/{id}/tables/{id}")
+	public String showOneTableByCafeId(@PathVariable Integer id, Model model){
+		model.addAttribute("table", tableService.reserveOneTableByCafeId(id));
+		return "form_to_reserve_table";
+	}
+	
+	@GetMapping("/{id}/tables")
+	public String showTableByCafeId(@PathVariable Integer id, Model model){
+		model.addAttribute("tables", tableService.findTablesBycafeId(id));
+		return "table";
 	}
 }

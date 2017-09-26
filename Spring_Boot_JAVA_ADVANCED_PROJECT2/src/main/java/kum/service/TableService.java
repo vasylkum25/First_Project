@@ -15,6 +15,8 @@ public interface TableService{
 	
 	void saveUserInTable(TableRequest request, Integer id);
 	
+	void deSaveUserInTable(Integer id);
+	
 	TableRequest findOne(Integer id);
 	
 	void delete(Integer id);
@@ -23,6 +25,8 @@ public interface TableService{
 	
 	TableRequest reserveOneTableByCafeId(Integer id);
 	
-	Table findOneCafeByTableId(Integer id);
+	Table findOneRequest(Integer id);
+	
+	
 
 }

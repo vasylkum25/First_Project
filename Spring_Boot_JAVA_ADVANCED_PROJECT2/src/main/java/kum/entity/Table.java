@@ -16,7 +16,7 @@ public class Table extends AbstractEntity{
 	
 	private String name;
 	
-	private int phone;
+	private String phone;
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Cafe cafe;
 	
@@ -28,11 +28,11 @@ public class Table extends AbstractEntity{
 		this.name = name;
 	}
 
-	public int getPhone() {
+	public String getPhone() {
 		return phone;
 	}
 
-	public void setPhone(int phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 

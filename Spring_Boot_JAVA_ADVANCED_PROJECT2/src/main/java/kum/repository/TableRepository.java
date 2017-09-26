@@ -21,6 +21,4 @@ public interface TableRepository extends JpaRepository<Table, Integer>{
 	@Query("SELECT t FROM Table t JOIN t.cafe c WHERE c.id=?1")
 	List<Table> findTablesBycafeId(Integer id);
 
-	@Query("SELECT DISTINCT t FROM Table t JOIN FETCH t.cafe WHERE t.id=?1")
-	Table findOneCafeByTableId(Integer id);
 }

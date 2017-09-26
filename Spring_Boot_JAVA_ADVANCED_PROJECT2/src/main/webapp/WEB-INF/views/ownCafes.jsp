@@ -2,7 +2,7 @@
 
 <div class = "container mt-3">
 		<div class="row" >
-			<div class = "col-12">
+			<div class = "col-6">
 			 <sec:authorize access="hasRole('ROLE_ADMIN')">
 			<a href="/profile/ownCafe/add"><button class="btn btn-sm btn-outline-success ml-3">New Cafe</button></a>
 			</sec:authorize>
@@ -32,6 +32,7 @@
 						<td class = "text-center">
 						<a href = "/profile/ownCafe/update/${cafe.id }"  class="btn btn-outline-danger btn-sm">Update</a>
 						<a href = "/profile/ownCafe/delete/${cafe.id }" class="btn btn-outline-warning btn-sm">Delete</a>
+								<a href="/profile/ownCafe/${cafe.id}/tables"><button class="btn btn-sm btn-outline-success">Table</button></a>
 						</td>
 						</sec:authorize>
 					</tr>

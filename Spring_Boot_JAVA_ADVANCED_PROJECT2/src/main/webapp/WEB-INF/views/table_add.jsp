@@ -2,7 +2,7 @@
 	<div class="container mt-3">
 		<div class="row">
 			<div class="col-12">
-				<form:form action="/admin/table" method="POST" modelAttribute="table">
+				<form:form action="/profile/ownCafe/${cafe.id}/tables" method="POST" modelAttribute="table">
 				<div class="form-group row">
 						<label class="col-2 col-form-label" for="number">Number:</label>
 						<div class="col-10">
@@ -24,13 +24,13 @@
 					<div class="form-group row">
 						<label class="col-2 col-form-label" for="cafe">Cafe:</label>
 						<div class="col-10">
-							<form:select class="form-control" id="cafe" path="cafe" items="${cafes}"/>
-						</div>
+						<form:select class="form-control"  path="cafe"  items="${ownCafes}" itemValue="name" itemLabel="name"/>
+					</div>
 					</div>
 					<div class="form-group row">
 					<div class="col-10 mr-left">
 					<button class="btn btn-sm btn-outline-success">Save</button>
-					<button class="btn btn-sm btn-outline-warning">Cancel</button>
+					<a href = "/profile/ownCafe/${cafe.id}/tables/cancel" class="btn btn-sm btn-outline-warning">Cancel</a>
 					</div>
 					</div>
 				</form:form>
@@ -58,11 +58,11 @@
 							<td>${table.name}</td>
 							<td>${table.phone}</td>
 							<td class="text-center">
-								<a href="/admin/table/update/${table.id}" class="btn btn-outline-success btn-sm">Update</a>
-								<a href="/admin/table/delete/${table.id}" class="btn btn-outline-danger btn-sm">Delete</a>
+								<a href="/profile/ownCafe/${table.cafe.id}/tables/update/${table.id}" class="btn btn-outline-success btn-sm">Update</a>
+								<a href="/profile/ownCafe/${table.cafe.id}/tables/${table.id}/delete" class="btn btn-outline-danger btn-sm">Delete</a>
 							</td>
 							<c:if test="${table.isFree.equals(true)}">
-							<td><a href="/admin/table"  class="btn btn-outline-danger btn-sm">Reserve</a> 
+							<td><a href="/profile/ownCafe/${table.cafe.id}/tables/${table.id}"  class="btn btn-outline-danger btn-sm">Reserve</a> 
 							<i class="col-3 text-left" style="color:red;">This table are reserved</i></td>
 			</c:if>
 			<c:if test="${table.isFree.equals(false)}">
