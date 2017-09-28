@@ -4,13 +4,21 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
 import kum.entity.Meal;
 import kum.entity.OpenClose;
+import kum.validation.flag.CafeFlag;
 
 public class CafeRequest {
 
 	private Integer id;
 	
+	@Pattern(regexp = "^[A-Z][A-Za-z0-9]+| *$", groups=CafeFlag.class, message="Це поле не може починатися з малої букви")
+	@NotBlank(message="Це поле не може бути пустим", groups=CafeFlag.class)
 	private String name;
 	
 	private BigDecimal rate;
@@ -27,8 +35,11 @@ public class CafeRequest {
 	
 	private String type;
 	
+	@Pattern(regexp = "^\\+{1}[0-9]{12}$", message="Невірний формат (+38)", groups= CafeFlag.class)
 	private String phone;
 	
+	@NotBlank(message="Це поле не може бути пустим", groups=CafeFlag.class)
+	@Email(message="Невірний формат", groups=CafeFlag.class)
 	private String web;
 	
 	private OpenClose open;

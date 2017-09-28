@@ -10,25 +10,32 @@
 <title>Registration</title>
 </head>
 <body>
-	<div class="container">
-	
-		<div class="row rounded border border-danger">
-			<div class="col-12">
-			<c:if test="${param.fail}">
+<div class="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Enter</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <c:if test="${param.fail}">
 				<div class="col-12 text-center" style="color:red;">
 					Fail to authorize
 				</div>
 			</c:if>
+			<div class="col-12">
 				<form:form action="/login" method="POST">
 					<div class="form-group row">
-						<label class="col-3 col-form-label" for="email">Email:</label>
-						<div class="col-9">
+						<label class="col-2 col-form-label" for="email">Email:</label>
+						<div class="col-10">
 							<input class="form-control" id="email" name="login"/>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-3 col-form-label" for="password">Password:</label>
-						<div class="col-9">
+						<label class="col-2 col-form-label" for="password">Password:</label>
+						<div class="col-10">
 							<input type="password" class="form-control" id="password" name="password"/>
 						</div>
 					</div>
@@ -37,15 +44,15 @@
 							<label><input name="rememberMe" type="checkbox"> Remember me</label>
 						</div>
 					</div>
-					<div class="form-group row">
-						<div class="col-10 ml-auto">
-							<button class="btn btn-sm btn-outline-success">Sing in</button>
-							<a href="/registration" class="btn btn-sm btn-outline-primary">Registration</a>
-						</div>
-					</div>
 				</form:form>
-				</div>
-			</div>
-		</div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-sm btn-outline-success">Sing in</button>
+        <a href="/registration" class="btn btn-sm btn-outline-primary">Registration</a>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
 </body>
 </html>

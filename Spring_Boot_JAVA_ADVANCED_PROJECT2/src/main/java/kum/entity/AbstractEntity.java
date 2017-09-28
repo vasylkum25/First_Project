@@ -19,6 +19,5 @@ public abstract class AbstractEntity {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
-	
+
 }

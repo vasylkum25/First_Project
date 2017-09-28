@@ -2,9 +2,12 @@ package kum.controller;
 
 import java.security.Principal;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -64,7 +67,7 @@ public class AdministratorMealController {
 	}
 	
 	@PostMapping("/add")
-	public String save(@ModelAttribute("meal") MealRequest request, SessionStatus sessionStatus){
+	public String save(@ModelAttribute("meal") @Valid MealRequest request, BindingResult br, Model model, SessionStatus sessionStatus){
 		mealService.save(request);
 		return cancel(sessionStatus);
 	} 

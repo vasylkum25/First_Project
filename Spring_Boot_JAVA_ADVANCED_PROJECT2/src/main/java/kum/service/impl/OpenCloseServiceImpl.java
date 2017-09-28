@@ -2,12 +2,14 @@ package kum.service.impl;
 
 
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kum.entity.OpenClose;
+import kum.model.request.OpenCloseRequest;
 import kum.repository.OpenCloseRepository;
 import kum.service.OpenCloseService;
 
@@ -27,8 +29,12 @@ public class OpenCloseServiceImpl implements OpenCloseService {
 	}
 
 	@Override
-	public OpenClose findOne(Integer id) {
-		return repository.findOne(id);
+	public OpenCloseRequest findOne(Integer id) {
+		OpenClose openClose = repository.findOne(id);
+		OpenCloseRequest openCloseRequest = new OpenCloseRequest();
+		openCloseRequest.setId(openClose.getId());
+		openCloseRequest.setTime(openClose.getTime().format(DateTimeFormatter.ofPattern("HH:mm")));
+		return openCloseRequest;
 	}
 
 	@Override
@@ -37,8 +43,11 @@ public class OpenCloseServiceImpl implements OpenCloseService {
 	}
 
 	@Override
-	public void save(OpenClose entity) {
-		repository.save(entity);
+	public void save(OpenCloseRequest openCloseRequest) {
+		OpenClose openClose = new OpenClose();
+		openClose.setId(openCloseRequest.getId());
+		openClose.setTime(LocalTime.parse(openCloseRequest.getTime()));
+		repository.save(openClose);
 	}
 
 	@Override

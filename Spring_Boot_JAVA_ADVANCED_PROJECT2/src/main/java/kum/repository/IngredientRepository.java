@@ -11,5 +11,4 @@ public interface IngredientRepository extends JpaNameRepository<Ingredient>{
 	@Query("SELECT ingredient.name FROM Ingredient ingredient")
 	List<String> findAllIngredients();
 
-
 }

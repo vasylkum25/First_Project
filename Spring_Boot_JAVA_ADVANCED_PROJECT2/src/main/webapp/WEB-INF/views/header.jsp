@@ -1,8 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="ISO-8859-1"%>
     <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
     <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
     <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="custom" uri="/WEB-INF/tags/implicit.tld"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -37,9 +38,14 @@
       </li>
     </ul>
   </div>
+  <div class="navbar-nav ml-auto">
   <sec:authorize access="isAnonymous()">
-		<a href="/registration" >Registration</a>
-		<a href="/login">Login</a>
+  <div>
+		<a href="/registration" class="nav-item text-warning" >Registration</a>
+  </div>
+  <div>
+		<a href="/login" class="nav-item text-warning ml-2"> Login</a>
+  </div>
 	</sec:authorize>
   <sec:authorize access="isAuthenticated()">
 		<form:form action="/logout">

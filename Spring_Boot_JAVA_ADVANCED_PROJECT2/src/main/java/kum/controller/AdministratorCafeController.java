@@ -5,6 +5,8 @@ import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +19,7 @@ import kum.entity.Type;
 import kum.model.request.CafeRequest;
 import kum.service.CafeService;
 import kum.service.OpenCloseService;
+import kum.validation.flag.CafeFlag;
 
 @Controller
 @RequestMapping("/profile")
@@ -63,7 +66,8 @@ public class AdministratorCafeController {
 	}
 	
 	@PostMapping("/ownCafe/add")
-	public String save(@ModelAttribute("cafe") CafeRequest request, SessionStatus status, Principal principal){
+	public String save(@ModelAttribute("cafe") @Validated (CafeFlag.class) CafeRequest request, BindingResult br, Model model, SessionStatus status, Principal principal){
+	if(br.hasErrors()) return addMyCafe(model, principal);
 		cafeService.save(request, principal);
 		return cancel(status);
 	}

@@ -1,9 +1,14 @@
 package kum.controller;
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +19,7 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import kum.entity.Cuisine;
 import kum.service.CuisineService;
+import kum.validation.flag.CuisineFlag;
 
 @Controller
 @RequestMapping("/admin/cuisine")
@@ -33,8 +39,8 @@ public class AdminCuisineControler {
 	}
 	
 	@GetMapping
-	public String show(Model model) {
-		model.addAttribute("cuisines", service.findAll());
+	public String show(Model model, @PageableDefault Pageable pageable) {
+		model.addAttribute("cuisines", service.findAll(pageable));
 		return "cuisine";
 	}
 	
@@ -45,15 +51,16 @@ public class AdminCuisineControler {
 	}
 	
 	@PostMapping
-	public String save(@ModelAttribute("cuisine") Cuisine cuisine, SessionStatus status) {
+	public String save(@ModelAttribute("cuisine") @Validated (CuisineFlag.class) Cuisine cuisine, BindingResult br, Model model, SessionStatus status,  Pageable pageable) {
+		if(br.hasErrors()) return show(model, pageable);
 		service.save(cuisine);
 		return cancel(status);
 	}
 	
 	@GetMapping("/update/{id}")
-	public String update(@PathVariable Integer id, Model model) {
+	public String update(@PathVariable Integer id, Model model,  Pageable pageable) {
 		model.addAttribute("cuisine", service.findOne(id));
-		return show(model);
+		return show(model, pageable);
 	}
 	
 	@GetMapping("/cancel")

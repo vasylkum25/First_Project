@@ -2,9 +2,12 @@ package kum.controller;
 
 import java.security.Principal;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -88,14 +91,16 @@ public class CafeController {
 	}
 	
 	@PostMapping("/{idCafe}/tables/{idTable}")
-	public String reserveTable(@ModelAttribute("user") TableRequest tableRequest, Model model, @PathVariable Integer idTable, @PathVariable Integer idCafe){
+	public String reserveTable(@ModelAttribute("user") @Valid TableRequest tableRequest, BindingResult br, Model model, @PathVariable Integer idTable, @PathVariable Integer idCafe){
+		if(br.hasErrors()) return showOneTableByCafeId(idTable, model);
 		tableService.saveUserInTable(tableRequest, idTable);
-		return  showTableByCafeId(tableService.findOneRequest(idTable).getCafe().getId(), model);
+		return  showTableByCafeId(idCafe, model);
 	}
 	
-	@GetMapping("/{id}/tables/{id}")
-	public String showOneTableByCafeId(@PathVariable Integer id, Model model){
-		model.addAttribute("table", tableService.reserveOneTableByCafeId(id));
+	@GetMapping("/{idCafe}/tables/{idTable}")
+	public String showOneTableByCafeId(@PathVariable Integer idTable, Model model){
+		model.addAttribute("tables", tableService.findOne(idTable));
+		model.addAttribute("table", tableService.reserveOneTableByCafeId(idTable));
 		return "form_to_reserve_table";
 	}
 	

@@ -47,7 +47,6 @@ public class TableServiceImpl implements TableService {
 		Table table = repository.findOneRequest(id);
 		TableRequest request = new TableRequest();
 		request.setId(table.getId());
-		System.out.println(table.getId());
 		request.setCafe(table.getCafe());
 		request.setCountOfPeople(Integer.valueOf(table.getCountOfPeople()));
 		request.setIsFree(Boolean.valueOf(table.getIsFree()));
@@ -78,8 +77,8 @@ public class TableServiceImpl implements TableService {
 		request.setCountOfPeople(Integer.valueOf(table.getCountOfPeople()));
 		request.setIsFree(table.getIsFree());
 		request.setNumber(table.getNumber());
-		table.setIsFree(request.getIsFree());
-		repository.save(table);
+		request.setName(table.getName());
+		request.setPhone(table.getPhone());
 		return request;
 		
 	}

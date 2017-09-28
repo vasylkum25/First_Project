@@ -4,6 +4,11 @@
 		<div class="row" >
 			<div class = "col-12">
 				<form:form action="/profile/ownCafe/add" method="POST" modelAttribute="cafe">
+					<div class="row">
+						<div class="col-10 ml-auto" style="color: red;">
+							<form:errors path="name"/>
+						</div>
+					</div>
 				<div class="form-group row">
 					<label class="col-2 col-form-label" for="name">Name:</label> 
 					<div class="col-10">
@@ -28,12 +33,22 @@
 						<form:textarea class="form-control" id ="shortDescription" path="shortDescription" rows="3"></form:textarea>
 					</div>
 				</div>
+				<div class="row">
+						<div class="col-10 ml-auto" style="color: red;">
+							<form:errors path="phone"/>
+						</div>
+					</div>
 				<div class="form-group row">
 					<label class="col-2 col-form-label" for="phone">Phone:</label> 
 					<div class="col-10">
-						<form:input class="form-control" id ="phone" path="phone"/>
+						<form:input class="form-control" id ="phone" path="phone" title="+38" placeholder="+38"/>
 					</div>
 				</div>
+				<div class="row">
+						<div class="col-10 ml-auto" style="color: red;">
+							<form:errors path="web"/>
+						</div>
+					</div>
 				<div class="form-group row">
 					<label class="col-2 col-form-label" for="web">Web:</label> 
 					<div class="col-10">

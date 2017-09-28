@@ -3,6 +3,11 @@
 		<div class="row">
 			<div class="col-12">
 				<form:form action="/admin/cuisine" method="POST" modelAttribute="cuisine">
+						<div class="row">
+							<div class="col-10 ml-auto" style="color:red;">
+								<form:errors path="name" />
+							</div>
+						</div>
 					<div class="form-group row">
 						<label class="col-2 col-form-label" for="name">Name:</label>
 						<div class="col-10">
@@ -25,7 +30,7 @@
 						<th class="text-center">Name</th>
 						<th class="text-center">Option</th>
 					</tr>
-					<c:forEach var="cuisine" items="${cuisines}">
+					<c:forEach var="cuisine" items="${cuisines.content}">
 						<tr>
 							<td>${cuisine.name}</td>
 							<td class="text-center">
@@ -38,6 +43,11 @@
 			</div>
 
 		</div>
+		<div class="row">
+ 			<div class="col-12 text-center">
+ 				<custom:pageable page="${cuisines}"/>
+ 			</div>
+ 		</div>
 	</div>
 </body>
 </html>

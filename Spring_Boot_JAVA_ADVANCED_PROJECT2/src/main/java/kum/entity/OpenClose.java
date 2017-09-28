@@ -13,6 +13,7 @@ import javax.persistence.Table;
 public class OpenClose extends AbstractEntity {
 
 	
+	private LocalTime time;
 	
 	public OpenClose() {
 	}
@@ -29,7 +30,6 @@ public class OpenClose extends AbstractEntity {
 	@OneToMany(mappedBy = "close")
 	private List<Cafe> closedCafes = new ArrayList<>();
 	
-	private LocalTime time;
 	
 
 	public List<Cafe> getOpenedCafes() {
