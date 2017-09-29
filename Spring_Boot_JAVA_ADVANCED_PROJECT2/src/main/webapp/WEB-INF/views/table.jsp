@@ -1,6 +1,7 @@
 <%@ include file="header.jsp"%>
+<div class = "container">
 		<div class="row">
-			<div class="col-8 mt-3 ml-5">
+			<div class="col-12 mt-3">
 				<table class="table table-bordered">
 					<tr>
 						<th class="text-center">Number</th>
@@ -9,7 +10,7 @@
 						<th class="text-center">Cafe</th>
 						<th class="text-center">Reserve</th>
 					</tr>
-					<c:forEach var="table" items="${tables}">
+					<c:forEach var="table" items="${tables.content}">
 						<tr>
 							<td>${table.number}</td>
 							<td>${table.countOfPeople}</td>
@@ -25,7 +26,13 @@
 						</tr>
 					</c:forEach>
 				</table>
-			</div>
+ 		</div>
 		</div>
+			<div class="row">
+ 			<div class="col-12 text-center">
+ 				<custom:pageable page="${tables}"/>
+ 			</div>
+			</div>
+</div>
 </body>
 </html>

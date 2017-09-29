@@ -2,6 +2,9 @@ package kum.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import kum.entity.Table;
 import kum.model.request.TableRequest;
 
@@ -22,6 +25,8 @@ public interface TableService{
 	void delete(Integer id);
 
 	List<Table> findTablesBycafeId(Integer id);
+	
+	Page<Table> findTablesBycafeId(Integer id, Pageable pageable);
 	
 	TableRequest reserveOneTableByCafeId(Integer id);
 	

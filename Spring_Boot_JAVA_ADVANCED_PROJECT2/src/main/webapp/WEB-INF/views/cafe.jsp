@@ -11,7 +11,7 @@
 					<th class = "text-center">Photo</th>
 					<th class = "text-center">Type</th>
 				</tr>
-					<c:forEach var="cafe" items="${cafes}">
+					<c:forEach var="cafe" items="${cafes.content}">
 					<tr>
 					<td><a href="/cafe/${cafe.id}">${cafe.name}</a></td>
 						<td>${cafe.address}</td>
@@ -24,6 +24,11 @@
 		</div>
 	
 	</div>
+	<div class="row">
+ 			<div class="col-12 text-center">
+ 				<custom:pageable page="${cafes}"/>
+ 			</div>
+ 		</div>
 </div>
 </body>
 </html>

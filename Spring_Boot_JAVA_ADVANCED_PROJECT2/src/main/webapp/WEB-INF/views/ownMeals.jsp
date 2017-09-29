@@ -21,7 +21,7 @@
 					<th class = "text-center">Option</th>
 					</sec:authorize>
 				</tr>
-					<c:forEach var="meal" items="${ownMeals}">
+					<c:forEach var="meal" items="${ownMeals.content}">
 					<tr>
 						<td><a href="/meal/${meal.id}">${meal.title}</a></td>
 						<td>${meal.description}</td>
@@ -46,6 +46,11 @@
 			</table>
 		</div>
 	</div>
+	<div class="row">
+ 			<div class="col-12 text-center">
+ 				<custom:pageable page="${ownMeals}"/>
+ 			</div>
+ 		</div>
 </div>
 </body>
 </html>

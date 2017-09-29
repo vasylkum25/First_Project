@@ -21,7 +21,7 @@
 					<th class = "text-center">Option</th>
 					</sec:authorize>
 				</tr>
-					<c:forEach var="cafe" items="${ownCafes}">
+					<c:forEach var="cafe" items="${ownCafes.content}">
 					<tr>
 					<td><a href="/cafe/${cafe.id}">${cafe.name}</a></td>
 						<td>${cafe.address}</td>
@@ -39,8 +39,12 @@
 					</c:forEach>
 			</table>
 		</div>
-	
 	</div>
+	<div class="row">
+ 			<div class="col-12 text-center">
+ 				<custom:pageable page="${ownCafes}"/>
+ 			</div>
+ 		</div>
 </div>
 </body>
 </html>

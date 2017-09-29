@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -96,11 +98,16 @@ public class MealServiceImpl implements MealService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<MealView> findAllMealsByUser(String title) {
-		List<MealView> views = repository.findAllMealsBeUser(title);
+	public Page<MealView> findAllMealsByUser(String title, Pageable pageable) {
+		Page<MealView> views = repository.findAllMealsBeUser(title, pageable);
 		views.forEach(this::loadIngredients);
 		views.forEach(this::loadCafe);
 		return views;
 	}
 
+
+	@Override
+	public Page<MealView> findAllViews(Pageable pageable) {
+		return repository.findAllViews(pageable);
+	}
 }

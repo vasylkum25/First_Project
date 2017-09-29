@@ -3,6 +3,8 @@ package kum.controller;
 import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -45,9 +47,9 @@ public class AdministratorCafeController {
 	}
 	
 	@GetMapping("/ownCafe")
-	public String showOwnCafes(Model model, Principal principal){
+	public String showOwnCafes(Model model, Principal principal, @PageableDefault Pageable pageable){
 		if(principal!=null){
-		model.addAttribute("ownCafes", cafeService.findAllCafesByUser(principal.getName()));
+		model.addAttribute("ownCafes", cafeService.findAllCafesByUser(principal.getName(), pageable ));
 		}
 		return "ownCafes";
 	}

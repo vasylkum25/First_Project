@@ -4,6 +4,7 @@ package kum.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,8 +37,8 @@ public class AdminOpenCloseController {
 	
 	
 	@GetMapping
-	public String find(Model model){
-		model.addAttribute("opens", service.findAll());
+	public String find(Model model, Pageable pageable){
+		model.addAttribute("opens", service.findAll(pageable));
 		return "open_close";
 	}
 	@GetMapping("/delete/{id}")
@@ -47,16 +48,16 @@ public class AdminOpenCloseController {
 	}
 
 	@PostMapping
-	public String save(@ModelAttribute("open_close")@Valid OpenCloseRequest openCloseRequest, BindingResult br, Model model, SessionStatus status){
-		if(br.hasErrors()) return find(model);
+	public String save(@ModelAttribute("open_close")@Valid OpenCloseRequest openCloseRequest, BindingResult br, Model model, SessionStatus status, Pageable pageable){
+		if(br.hasErrors()) return find(model, pageable);
 		service.save(openCloseRequest);
 		return cancel(status);
 	}
 	
 	@GetMapping("/update/{id}")
-	public String update(@PathVariable Integer id,Model model){
+	public String update(@PathVariable Integer id, Model model, Pageable pageable){
 		model.addAttribute("open_close", service.findOne(id));
-		return find(model);
+		return find(model, pageable);
 	}
 
 	@GetMapping("/cancel")

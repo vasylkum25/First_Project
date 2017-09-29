@@ -3,6 +3,11 @@
 		<div class="row" >
 			<div class = "col-12">
 				<form:form action="/profile/ownMeal/add" method="POST" modelAttribute="meal">
+				<div class="row">
+						<div class="col-10 ml-auto" style="color: red;">
+							<form:errors path="title"/>
+						</div>
+					</div>
 				<div class="form-group row">
 					<label class="col-2 col-form-label" for="title">Title:</label> 
 					<div class="col-10">

@@ -31,7 +31,7 @@
 					<th class = "text-center">Time</th>
 					<th class = "text-center">Option</th>
 				</tr>
-					<c:forEach var="open_close"  items="${opens}">
+					<c:forEach var="open_close"  items="${opens.content}">
 				<tr>
 					<td>${open_close.time}</td>
 					<td>
@@ -42,8 +42,12 @@
 					</c:forEach>
 			</table>
 		</div>
-	
 	</div>
+	<div class="row">
+ 			<div class="col-12 text-center">
+ 				<custom:pageable page="${opens}"/>
+ 			</div>
+ 		</div>
 </div>
 </body>
 </html>

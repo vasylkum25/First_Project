@@ -49,7 +49,7 @@
 						<th class="text-center">Options</th>
 						<th class="text-center">Reserve</th>
 					</tr>
-					<c:forEach var="table" items="${tables}">
+					<c:forEach var="table" items="${tables.content}">
 						<tr>
 							<td>${table.number}</td>
 							<td>${table.countOfPeople}</td>
@@ -73,6 +73,11 @@
 				</table>
 			</div>
 		</div>
+		<div class="row">
+ 			<div class="col-12 text-center">
+ 				<custom:pageable page="${tables}"/>
+ 			</div>
+ 		</div>
 	</div>
 </body>
 </html>

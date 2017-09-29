@@ -5,6 +5,8 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import kum.entity.Cafe;
@@ -27,12 +29,6 @@ public class CafeServiceImpl implements CafeService  {
 	public CafeServiceImpl(CafeRepository repository, UserRepository userRepository) {
 		this.repository = repository;
 		this.userRepository = userRepository;
-	}
-
-	@Override
-	public List<CafeView> findAllViews() {
-		List<CafeView> views = repository.findAllViews();
-		return views;
 	}
 
 	@Override
@@ -98,6 +94,16 @@ public class CafeServiceImpl implements CafeService  {
 	@Override
 	public List<CafeIndexView> findAllCafesByUser(String email) {
 		return repository.findAllCafesByUser(email);
+	}
+
+	@Override
+	public Page<CafeIndexView> findAllIndexViews(Pageable pageable) {
+		return repository.findAllIndexViews(pageable);
+	}
+
+	@Override
+	public Page<CafeIndexView> findAllCafesByUser(String email, Pageable pageable) {
+		return repository.findAllCafesByUser(email, pageable);
 	}
 
 }

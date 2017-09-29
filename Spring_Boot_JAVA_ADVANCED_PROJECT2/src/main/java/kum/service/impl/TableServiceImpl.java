@@ -4,6 +4,8 @@ package kum.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import kum.entity.Table;
@@ -107,6 +109,11 @@ public class TableServiceImpl implements TableService {
 		table.setName(null);
 		repository.save(table);
 		
+	}
+
+	@Override
+	public Page<Table> findTablesBycafeId(Integer id, Pageable pageable) {
+		return repository.findAll(pageable);
 	}
 	
 	

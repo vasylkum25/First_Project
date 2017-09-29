@@ -3,6 +3,7 @@ package kum.controller;
 import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,9 +39,9 @@ public class AdministratorTableController {
 		return new TableRequest();
 	}
 	@GetMapping
-	public String showOwnTables(Model model, @PathVariable Integer idCafe, Principal principal){
+	public String showOwnTables(Model model, @PathVariable Integer idCafe, Principal principal, Pageable pageable){
 		model.addAttribute("cafe", cafeService.findOneCafe(idCafe));
-		model.addAttribute("tables", tableService.findTablesBycafeId(idCafe));
+		model.addAttribute("tables", tableService.findTablesBycafeId(idCafe, pageable));
 		model.addAttribute("ownCafes", cafeService.findAllCafesByUser(principal.getName()));
 		return "table_add";
 	}
@@ -64,9 +65,9 @@ public class AdministratorTableController {
 	}
 	
 	@GetMapping("/update/{idTable}")
-	public String update(@PathVariable Integer idCafe, @PathVariable Integer idTable, Model model, Principal principal) {
+	public String update(@PathVariable Integer idCafe, @PathVariable Integer idTable, Model model, Principal principal, Pageable pageable) {
 		model.addAttribute("table", tableService.findOne(idTable));
-		return showOwnTables(model, idCafe, principal);
+		return showOwnTables(model, idCafe, principal, pageable);
 	}
 		
 	@GetMapping("/cancel")

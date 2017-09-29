@@ -5,6 +5,8 @@ import java.security.Principal;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -50,9 +52,9 @@ public class AdministratorMealController {
 	}
 	
 	@GetMapping
-	public String showOwnMeals(Model model, Principal principal){
+	public String showOwnMeals(Model model, Principal principal, @PageableDefault Pageable pageable){
 		if(principal!=null){
-		model.addAttribute("ownMeals", mealService.findAllMealsByUser(principal.getName()));
+		model.addAttribute("ownMeals", mealService.findAllMealsByUser(principal.getName(), pageable ));
 		}
 		return "ownMeals";
 }
@@ -67,7 +69,8 @@ public class AdministratorMealController {
 	}
 	
 	@PostMapping("/add")
-	public String save(@ModelAttribute("meal") @Valid MealRequest request, BindingResult br, Model model, SessionStatus sessionStatus){
+	public String save(@ModelAttribute("meal") @Valid MealRequest request, BindingResult br, Model model, SessionStatus sessionStatus,  Principal principal){
+		if(br.hasErrors()) return addMeal(model, principal);
 		mealService.save(request);
 		return cancel(sessionStatus);
 	} 

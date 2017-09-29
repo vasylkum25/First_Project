@@ -2,12 +2,17 @@ package kum.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import kum.model.request.MealRequest;
 import kum.model.view.MealView;
 
 public interface MealService{
 		
 	List<MealView> findAllViews();
+	
+	Page<MealView> findAllViews(Pageable pageable);
 	
 	List<String> findAllCafes();
 	
@@ -19,6 +24,6 @@ public interface MealService{
 	
 	void delete(Integer id);
 
-	List<MealView> findAllMealsByUser(String title);
+	Page<MealView> findAllMealsByUser(String title, Pageable pageable);
 
 }

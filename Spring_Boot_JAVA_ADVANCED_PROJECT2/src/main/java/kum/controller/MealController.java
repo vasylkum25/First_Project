@@ -2,6 +2,7 @@ package kum.controller;
  
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +20,7 @@ import kum.service.MealService;
 @Controller
 @RequestMapping("/meal")
 @SessionAttributes("meal")
-public class AdminMealController {
+public class MealController {
 
 	private final MealService mealService;
 	
@@ -28,7 +29,7 @@ public class AdminMealController {
 	
 	
 	@Autowired
-	public AdminMealController(MealService mealService) {
+	public MealController(MealService mealService) {
 		this.mealService = mealService;
 	}
 	
@@ -37,8 +38,8 @@ public class AdminMealController {
 		return new MealRequest();
 	}
 	@GetMapping
-	public String show(Model model){
-		model.addAttribute("meals", mealService.findAllViews());
+	public String show(Model model, Pageable pageable){
+		model.addAttribute("meals", mealService.findAllViews(pageable));
 		return "meals";
 	}
 	

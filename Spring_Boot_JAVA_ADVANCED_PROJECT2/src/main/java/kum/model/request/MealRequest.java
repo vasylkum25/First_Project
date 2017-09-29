@@ -2,6 +2,10 @@ package kum.model.request;
 
 import java.util.List;
 
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.NotBlank;
+
 import kum.entity.Cafe;
 import kum.entity.Cuisine;
 import kum.entity.Ingredient;
@@ -10,6 +14,8 @@ public class MealRequest {
 
 	private Integer id;
 	
+	@Pattern(regexp = "^[A-Z][A-Za-z0-9]+| *$", message="Це поле не може починатися з малої букви")
+	@NotBlank(message="Це поле не може бути пустим")
 	private String title;
 	
 	private String description;

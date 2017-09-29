@@ -1,10 +1,11 @@
 package kum.controller;
 
-import java.security.Principal;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -48,18 +49,11 @@ public class CafeController {
 		return new CafeRequest();
 	}
 	
-	@GetMapping("/my")
-	public String showMyCafe(Model model, Principal principal){
-		model.addAttribute("cafes", cafeService.findAllViews());
-		return "cafe";
-	}
-	
-	
 	@GetMapping
-	public String show(Model model){
+	public String show(Model model, @PageableDefault Pageable pageable){
 		model.addAttribute("types", Type.values());
 		model.addAttribute("times", openService.findAllTimes());
-		model.addAttribute("cafes", cafeService.findAllIndexViews());
+		model.addAttribute("cafes", cafeService.findAllIndexViews(pageable));
 		return "cafe";
 	}
 	@GetMapping("/{id}")
@@ -91,10 +85,10 @@ public class CafeController {
 	}
 	
 	@PostMapping("/{idCafe}/tables/{idTable}")
-	public String reserveTable(@ModelAttribute("user") @Valid TableRequest tableRequest, BindingResult br, Model model, @PathVariable Integer idTable, @PathVariable Integer idCafe){
+	public String reserveTable(@ModelAttribute("user") @Valid TableRequest tableRequest, BindingResult br, Model model, @PathVariable Integer idTable, @PathVariable Integer idCafe, Pageable pageable){
 		if(br.hasErrors()) return showOneTableByCafeId(idTable, model);
 		tableService.saveUserInTable(tableRequest, idTable);
-		return  showTableByCafeId(idCafe, model);
+		return  showTableByCafeId(idCafe, model, pageable);
 	}
 	
 	@GetMapping("/{idCafe}/tables/{idTable}")
@@ -105,8 +99,8 @@ public class CafeController {
 	}
 	
 	@GetMapping("/{id}/tables")
-	public String showTableByCafeId(@PathVariable Integer id, Model model){
-		model.addAttribute("tables", tableService.findTablesBycafeId(id));
+	public String showTableByCafeId(@PathVariable Integer id, Model model,  @PageableDefault Pageable pageable){
+		model.addAttribute("tables", tableService.findTablesBycafeId(id, pageable));
 		return "table";
 	}
 }

@@ -13,7 +13,7 @@
 					<th class = "text-center">Cuisine</th>
 					<th class = "text-center">Ingredients</th>
 				</tr>
-					<c:forEach var="meal" items="${meals}">
+					<c:forEach var="meal" items="${meals.content}">
 					<tr>
 						<td><a href="/meal/${meal.id}">${meal.title}</a></td>
 						<td>${meal.description}</td>
@@ -30,8 +30,12 @@
 					</c:forEach>
 			</table>
 		</div>
-	
 	</div>
+	<div class="row">
+ 			<div class="col-12 text-center">
+ 				<custom:pageable page="${meals}"/>
+ 			</div>
+ 		</div>
 </div>
 </body>
 </html>
