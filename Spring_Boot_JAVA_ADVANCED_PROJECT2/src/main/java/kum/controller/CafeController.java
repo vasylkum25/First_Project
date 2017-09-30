@@ -1,14 +1,14 @@
 package kum.controller;
 
 
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,13 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import kum.entity.Type;
+import kum.model.filter.SimpleFilter;
 import kum.model.request.CafeRequest;
 import kum.model.request.CommentRequest;
-import kum.model.request.TableRequest;
 import kum.service.CafeService;
 import kum.service.CommentService;
 import kum.service.OpenCloseService;
-import kum.service.TableService;
 
 @Controller
 @RequestMapping("/cafe")
@@ -33,20 +32,22 @@ public class CafeController {
 	private final CafeService cafeService;
 	private final CommentService commentService;
 	private final OpenCloseService openService;
-	private final TableService tableService;
 	
 	@Autowired
-	public CafeController(CafeService cafeService, CommentService commentService, OpenCloseService openService,
-			TableService tableService) {
+	public CafeController(CafeService cafeService, CommentService commentService, OpenCloseService openService) {
 		this.cafeService = cafeService;
 		this.commentService = commentService;
 		this.openService = openService;
-		this.tableService = tableService;
 	}
 
 	@ModelAttribute("cafe")
 	public CafeRequest getForm(){
 		return new CafeRequest();
+	}
+	
+	@ModelAttribute("filter")
+	public SimpleFilter getFilter(){
+		return new SimpleFilter();
 	}
 	
 	@GetMapping
@@ -62,7 +63,26 @@ public class CafeController {
 		model.addAttribute("comments", commentService.findCommentByCafeId(id));
 		return "cafeindex";
 		}
-	 
+
+	private String buildParams(Pageable pageable, SimpleFilter filter) {
+		StringBuilder buffer = new StringBuilder();
+		buffer.append("?page=");
+		buffer.append(String.valueOf(pageable.getPageNumber()+1));
+		buffer.append("&size=");
+		buffer.append(String.valueOf(pageable.getPageSize()));
+		if(pageable.getSort()!=null){
+			buffer.append("&sort=");
+			Sort sort = pageable.getSort();
+			sort.forEach((order)->{
+				buffer.append(order.getProperty());
+				if(order.getDirection()!= Direction.ASC)
+				buffer.append(",desc");
+			});
+		}
+		buffer.append("&search=");
+		buffer.append(filter.getSearch());
+		return buffer.toString();
+	}
 	
 //	For comment
 	
@@ -77,30 +97,14 @@ public class CafeController {
 		return "redirect:/cafe/{id}";
 	}
 
-	//	For form to reserve table
 	
-	@ModelAttribute("user")
-	public TableRequest getFormUser() {
-		return new TableRequest();
-	}
-	
-	@PostMapping("/{idCafe}/tables/{idTable}")
-	public String reserveTable(@ModelAttribute("user") @Valid TableRequest tableRequest, BindingResult br, Model model, @PathVariable Integer idTable, @PathVariable Integer idCafe, Pageable pageable){
-		if(br.hasErrors()) return showOneTableByCafeId(idTable, model);
-		tableService.saveUserInTable(tableRequest, idTable);
-		return  showTableByCafeId(idCafe, model, pageable);
-	}
-	
-	@GetMapping("/{idCafe}/tables/{idTable}")
-	public String showOneTableByCafeId(@PathVariable Integer idTable, Model model){
-		model.addAttribute("tables", tableService.findOne(idTable));
-		model.addAttribute("table", tableService.reserveOneTableByCafeId(idTable));
-		return "form_to_reserve_table";
-	}
-	
-	@GetMapping("/{id}/tables")
-	public String showTableByCafeId(@PathVariable Integer id, Model model,  @PageableDefault Pageable pageable){
-		model.addAttribute("tables", tableService.findTablesBycafeId(id, pageable));
-		return "table";
-	}
 }
+
+
+
+
+
+
+
+
+

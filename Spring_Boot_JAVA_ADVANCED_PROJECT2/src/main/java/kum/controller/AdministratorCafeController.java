@@ -59,19 +59,19 @@ public class AdministratorCafeController {
 		model.addAttribute("times", openService.findAllTimes());
 		return "new_cafe";
 	}
+	@PostMapping("/ownCafe/add")
+	public String save(@ModelAttribute("cafe") @Validated (CafeFlag.class) CafeRequest request, BindingResult br, Model model, SessionStatus status, Principal principal){
+		if(br.hasErrors()) return addMyCafe(model, principal);
+		cafeService.save(request, principal);
+		return cancel(status);
+	}
+	
 	@GetMapping("/ownCafe/update/{id}")
 	public String update(@PathVariable Integer id, Model model) {
 		model.addAttribute("types", Type.values());
 		model.addAttribute("times", openService.findAllTimes());
 		model.addAttribute("cafe", cafeService.findOneCafe(id));
 		return "new_cafe";
-	}
-	
-	@PostMapping("/ownCafe/add")
-	public String save(@ModelAttribute("cafe") @Validated (CafeFlag.class) CafeRequest request, BindingResult br, Model model, SessionStatus status, Principal principal){
-	if(br.hasErrors()) return addMyCafe(model, principal);
-		cafeService.save(request, principal);
-		return cancel(status);
 	}
 	
 	@GetMapping("/ownCafe/delete/{id}")

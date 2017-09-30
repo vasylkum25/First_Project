@@ -2,13 +2,14 @@
 	<div class="container mt-3">
 		<div class="row">
 					<div class="col-3">
-					<form:form action="/admin/cuisine" method="GET" modelAttribute="filter">
-						<div class="form-group row">
-							<div class="col-12">
-								<form:input class="form-control" path="search" placeholder="Search"/>
+						<form:form action="/admin/cuisine" method="GET" modelAttribute="filter">
+							<div class="form-group row">
+								<div class="col-12">
+									<form:input class="form-control" path="search" placeholder="Search"/>
+								</div>
 							</div>
-						</div>
-					</form:form>
+						
+						</form:form>
 					</div>
 			<div class="col-9">
 				<form:form action="/admin/cuisine" method="POST" modelAttribute="cuisine">
@@ -44,8 +45,8 @@
 						<tr>
 							<td>${cuisine.name}</td>
 							<td class="text-center">
-							<a href="/admin/cuisine/update/${cuisine.id }<custom:allParams/>" class="btn btn-outline-danger btn-sm">Update</a> 
-							<a href="/admin/cuisine/delete/${cuisine.id }<custom:allParams/>" class="btn btn-outline-warning btn-sm">Delete</a>
+							<a href="/admin/cuisine/update/${cuisine.id}<custom:allParams/>" class="btn btn-outline-danger btn-sm">Update</a> 
+							<a href="/admin/cuisine/delete/${cuisine.id}<custom:allParams/>" class="btn btn-outline-warning btn-sm">Delete</a>
 							</td>
 						</tr>
 					</c:forEach>

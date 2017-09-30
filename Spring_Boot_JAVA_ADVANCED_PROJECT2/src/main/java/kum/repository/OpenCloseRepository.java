@@ -4,11 +4,12 @@ import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 import kum.entity.OpenClose;
 
-public interface OpenCloseRepository extends JpaRepository<OpenClose, Integer> {
+public interface OpenCloseRepository extends JpaRepository<OpenClose, Integer>, JpaSpecificationExecutor<OpenClose> {
 
 	OpenClose findByTime(LocalTime time);
 	

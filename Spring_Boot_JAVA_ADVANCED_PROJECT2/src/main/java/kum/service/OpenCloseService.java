@@ -1,6 +1,7 @@
 package kum.service;
 
 import kum.entity.OpenClose;
+import kum.model.filter.SimpleFilter;
 import kum.model.request.OpenCloseRequest;
 
 import java.time.LocalTime;
@@ -18,6 +19,8 @@ public interface OpenCloseService {
 	List<OpenClose> findAll();
 	
 	Page<OpenClose> findAll(Pageable pageable);
+	
+	Page<OpenClose> findAll(Pageable pageable, SimpleFilter filter);
 
 	void save(OpenCloseRequest openCloseRequest);
 

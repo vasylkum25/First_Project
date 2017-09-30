@@ -36,13 +36,13 @@ public class AdminCuisineControler {
 		this.service = service;
 	}
 	
-	@ModelAttribute("filter")
-	public SimpleFilter getFilter() {
-		return new SimpleFilter();
-	}
 	@ModelAttribute("cuisine")
 	public Cuisine getForm() {
 		return new Cuisine();
+	}
+	@ModelAttribute("filter")
+	public SimpleFilter getFilter() {
+		return new SimpleFilter();
 	}
 	
 	@GetMapping
@@ -75,10 +75,11 @@ public class AdminCuisineControler {
 		status.setComplete();
 		return "redirect:/admin/cuisine"+buildParams(pageable, filter);
 	}
+	
 	private String buildParams(Pageable pageable, SimpleFilter filter) {
 		StringBuilder buffer = new StringBuilder();
 		buffer.append("?page=");
-		buffer.append(String.valueOf(pageable.getPageNumber()-1));
+		buffer.append(String.valueOf(pageable.getPageNumber()+1));
 		buffer.append("&size=");
 		buffer.append(String.valueOf(pageable.getPageSize()));
 		if(pageable.getSort()!=null){
@@ -86,7 +87,7 @@ public class AdminCuisineControler {
 			Sort sort = pageable.getSort();
 			sort.forEach((order)->{
 				buffer.append(order.getProperty());
-				if(order.getDirection()!=Direction.ASC)
+				if(order.getDirection()!= Direction.ASC)
 				buffer.append(",desc");
 			});
 		}

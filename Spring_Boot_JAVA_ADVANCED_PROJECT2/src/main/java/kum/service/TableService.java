@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import kum.entity.Table;
+import kum.model.request.ReserveRequest;
 import kum.model.request.TableRequest;
 
 public interface TableService{
@@ -16,7 +17,7 @@ public interface TableService{
 	
 	void save(TableRequest request);
 	
-	void saveUserInTable(TableRequest request, Integer id);
+	void saveUserInTable(ReserveRequest request, Integer id);
 	
 	void deSaveUserInTable(Integer id);
 	
@@ -27,8 +28,6 @@ public interface TableService{
 	List<Table> findTablesBycafeId(Integer id);
 	
 	Page<Table> findTablesBycafeId(Integer id, Pageable pageable);
-	
-	TableRequest reserveOneTableByCafeId(Integer id);
 	
 	Table findOneRequest(Integer id);
 	

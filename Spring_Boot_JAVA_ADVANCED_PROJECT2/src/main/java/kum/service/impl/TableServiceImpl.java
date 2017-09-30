@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import kum.entity.Table;
+import kum.model.request.ReserveRequest;
 import kum.model.request.TableRequest;
 import kum.repository.TableRepository;
 import kum.service.TableService;
@@ -70,20 +71,6 @@ public class TableServiceImpl implements TableService {
 	}
 
 
-	@Override
-	public TableRequest reserveOneTableByCafeId(Integer id) {
-		Table table = repository.findOneRequest(id);
-		TableRequest request = new TableRequest();
-		request.setId(table.getId());
-		request.setCafe(table.getCafe());
-		request.setCountOfPeople(Integer.valueOf(table.getCountOfPeople()));
-		request.setIsFree(table.getIsFree());
-		request.setNumber(table.getNumber());
-		request.setName(table.getName());
-		request.setPhone(table.getPhone());
-		return request;
-		
-	}
 
 	@Override
 	public Table findOneRequest(Integer id) {
@@ -91,11 +78,11 @@ public class TableServiceImpl implements TableService {
 	}
 
 	@Override
-	public void saveUserInTable(TableRequest request, Integer id) {
+	public void saveUserInTable(ReserveRequest reserveRequest, Integer id) {
 		Table table =repository.findOne(id);
 		table.setIsFree(Boolean.TRUE);
-		table.setPhone(request.getPhone());
-		table.setName(request.getName());
+		table.setPhone(reserveRequest.getPhone());
+		table.setName(reserveRequest.getName());
 		repository.save(table);
 		
 		

@@ -1,6 +1,5 @@
 package kum.service.impl;
 
-
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -8,9 +7,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import kum.entity.OpenClose;
+import kum.model.filter.SimpleFilter;
 import kum.model.request.OpenCloseRequest;
 import kum.repository.OpenCloseRepository;
 import kum.service.OpenCloseService;
@@ -62,4 +63,18 @@ public class OpenCloseServiceImpl implements OpenCloseService {
 		return repository.findAll(pageable);
 	}
 
+	@Override
+	public Page<OpenClose> findAll(Pageable pageable, SimpleFilter filter) {
+		return repository.findAll(filter(filter), pageable);
+		
+	}
+	
+	public Specification<OpenClose> filter(SimpleFilter filter){
+		return (root, cq, cb) -> {
+			if(filter.getSearch().isEmpty()) return null; 
+				return cb.equal(root.get("time"), LocalTime.parse(filter.getSearch()));
+		}; 
+	}
+
+	
 }
