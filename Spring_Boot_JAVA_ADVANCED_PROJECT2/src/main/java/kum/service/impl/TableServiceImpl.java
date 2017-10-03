@@ -100,7 +100,7 @@ public class TableServiceImpl implements TableService {
 
 	@Override
 	public Page<Table> findTablesBycafeId(Integer id, Pageable pageable) {
-		return repository.findAll(pageable);
+		return repository.findTablesBycafeId(id, pageable);
 	}
 	
 	

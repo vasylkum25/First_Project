@@ -5,14 +5,15 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository; 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 import kum.entity.Meal;
 import kum.model.view.CafeIndexView;
 import kum.model.view.MealView;
 
-public interface MealRepository extends JpaRepository<Meal, Integer> {
+public interface MealRepository extends JpaRepository<Meal, Integer>, JpaSpecificationExecutor<MealView> {
 
 	
 	@Query("SELECT ca.name FROM Cafe ca")
@@ -37,5 +38,5 @@ public interface MealRepository extends JpaRepository<Meal, Integer> {
 	@Query(value="SELECT new kum.model.view.MealView(m.id, m.title, m.description, m.price, m.photoUrl, m.version, c.name, m.weight) FROM Meal m LEFT JOIN m.cuisine c LEFT JOIN m.cafe ca JOIN ca.user u WHERE u.email=?1",
 			countQuery="SELECT count(m.id) FROM Meal m LEFT JOIN m.cuisine c LEFT JOIN m.cafe ca JOIN ca.user u WHERE u.email=?1")
 	Page<MealView> findAllMealsBeUser(String title, Pageable pageable);
-
+	
 }

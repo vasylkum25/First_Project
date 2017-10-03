@@ -71,8 +71,8 @@ public class OpenCloseServiceImpl implements OpenCloseService {
 	
 	public Specification<OpenClose> filter(SimpleFilter filter){
 		return (root, cq, cb) -> {
-			if(filter.getSearch().isEmpty()) return null; 
-				return cb.equal(root.get("time"), LocalTime.parse(filter.getSearch()));
+			if(filter.getSearchOpen().isEmpty()) return null; 
+				return cb.equal(root.get("time"), LocalTime.parse(filter.getSearchOpen()));
 		}; 
 	}
 

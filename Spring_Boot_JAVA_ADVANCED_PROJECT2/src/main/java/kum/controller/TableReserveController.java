@@ -49,16 +49,16 @@ public class TableReserveController {
 		return "form_to_reserve_table";
 	}
 	
-	@GetMapping("/{id}/tables")
-	public String showTableByCafeId(@PathVariable Integer id, Model model,  @PageableDefault Pageable pageable){
-		model.addAttribute("tables", tableService.findTablesBycafeId(id, pageable));
+	@GetMapping("/{idCafe}/tables")
+	public String showTableByCafeId(@PathVariable Integer idCafe, Model model,  @PageableDefault Pageable pageable){
+		model.addAttribute("tables", tableService.findTablesBycafeId(idCafe, pageable));
 		return "table";
 	}
 	
-	@GetMapping("/{id}/tables/cancel")
+	@GetMapping("/{idCafe}/tables/cancel")
 	public String cancelReserve(SessionStatus session){
 		session.setComplete();
-		return "redirect:/cafe/{id}/tables";
+		return "redirect:/cafe/{idCafeid}/tables";
 	}
 	
 }

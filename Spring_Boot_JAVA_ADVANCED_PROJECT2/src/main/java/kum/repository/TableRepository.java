@@ -2,6 +2,8 @@ package kum.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -20,5 +22,7 @@ public interface TableRepository extends JpaRepository<Table, Integer>{
 
 	@Query("SELECT t FROM Table t JOIN t.cafe c WHERE c.id=?1")
 	List<Table> findTablesBycafeId(Integer id);
-
+	
+	@Query("SELECT t FROM Table t JOIN t.cafe c WHERE c.id=?1")
+	Page<Table> findTablesBycafeId(Integer id, Pageable pageable);
 }

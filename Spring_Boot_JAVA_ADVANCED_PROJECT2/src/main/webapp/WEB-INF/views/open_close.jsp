@@ -6,7 +6,7 @@
 		<form:form action="/admin/open_close" method="GET" modelAttribute="filter">
 			<div class="form-group row">
 				<div class="col-12">
-					<form:input class="form-control" path="search" placeholder="Search"/>
+					<form:input class="form-control" path="searchOpen" placeholder="Search"/>
 				</div>
 			</div>
 		</form:form>
@@ -59,8 +59,8 @@
  							<button class="dropdown-toggle btn btn-outline-primary btn-sm" type="button" data-toggle="dropdown">Sort
  							</button>
  						<div class="dropdown-menu">
- 								<custom:sort innerHtml="Name asc" paramValue="name"/>
- 								<custom:sort innerHtml="Name desc" paramValue="name,desc"/>
+ 								<custom:sort innerHtml="Time asc" paramValue="time"/>
+ 								<custom:sort innerHtml="Time desc" paramValue="time,desc"/>
  							</div>
 					</div>
  					<div class="col-6 text-center">

@@ -4,8 +4,6 @@
 		 <sec:authorize access="hasRole('ROLE_ADMIN')">
 			<a href="/profile/ownMeal/add"><button class="btn btn-sm btn-outline-success ml-3">New Meal</button></a>
 			</sec:authorize>
-			
-			
 	<div class="row" >
 		<div class = "col-12">
 			<table class= "table table-bordered">

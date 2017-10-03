@@ -4,13 +4,16 @@ package kum.service.impl;
 import java.security.Principal;
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import kum.entity.Cafe;
 import kum.entity.Type;
+import kum.model.filter.SimpleFilter;
 import kum.model.request.CafeRequest;
 import kum.model.view.CafeIndexView;
 import kum.model.view.CafeView;
@@ -106,6 +109,17 @@ public class CafeServiceImpl implements CafeService  {
 		return repository.findAllCafesByUser(email, pageable);
 	}
 
+	@Override
+	public Page<CafeIndexView> findAllIndexViews(Pageable pageable, SimpleFilter filter) {
+		return repository.findAll(filter(filter), pageable);
+	}
+
+	public Specification<CafeIndexView> filter(SimpleFilter filter){
+		return (root, cq, cb) -> {
+				if(filter.getSearch().isEmpty()) return null;
+				return cb.like(root.get("name"), filter.getSearch()+"%");
+		};
+	}
 }
 
 	

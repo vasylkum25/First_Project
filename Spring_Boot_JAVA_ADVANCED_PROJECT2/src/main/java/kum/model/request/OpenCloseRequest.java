@@ -12,7 +12,7 @@ public class OpenCloseRequest {
 	
 	@UniqueOpenClose(message="Такий час вже є в БД")
 	@NotBlank(message="Це поле не може бути пустим.")
-	@Pattern(regexp = "^[0-2][0-3]:[0-5]{1}[0-9]$", message="Введенні дані не задовільняють формату")
+	@Pattern(regexp = "^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$", message="Введенні дані не задовільняють формату")
 	private String time;
 
 	public Integer getId() {
@@ -30,7 +30,4 @@ public class OpenCloseRequest {
 	public void setTime(String time) {
 		this.time = time;
 	}
-	
-	
-
 }

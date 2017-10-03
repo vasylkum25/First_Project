@@ -1,20 +1,31 @@
 package kum.model.filter;
 
-import javax.validation.constraints.Pattern;
+import java.util.regex.Pattern;
 
-import kum.validation.flag.OpenCloseFlag;
 
 public class SimpleFilter {
 	
-	@Pattern(regexp = "^[0-2][0-3]:[0-5]{1}[0-9]$", message="Введенні дані не задовільняють формату", groups={OpenCloseFlag.class})
+	private static final Pattern TIME_PATTERN = Pattern.compile("^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$");
+	
 	private String search="";
 
+	private String searchOpen="";
+	
 	public String getSearch() {
 		return search;
 	}
 
 	public void setSearch(String search) {
 		this.search = search;
+	}
+
+	public String getSearchOpen() {
+		return searchOpen;
+	}
+
+	public void setSearchOpen(String searchOpen) {
+		if(TIME_PATTERN.matcher(searchOpen).matches())
+		this.searchOpen = searchOpen;
 	}
 	
 	

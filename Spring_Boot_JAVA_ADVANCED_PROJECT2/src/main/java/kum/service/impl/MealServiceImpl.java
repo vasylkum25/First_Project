@@ -3,13 +3,16 @@ package kum.service.impl;
 import java.math.BigDecimal;
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kum.entity.Meal;
+import kum.model.filter.SimpleFilter;
 import kum.model.request.MealRequest;
 import kum.model.view.MealView;
 import kum.repository.MealRepository;
@@ -108,6 +111,33 @@ public class MealServiceImpl implements MealService {
 
 	@Override
 	public Page<MealView> findAllViews(Pageable pageable) {
-		return repository.findAllViews(pageable);
+		Page<MealView> views = repository.findAllViews(pageable);
+		views.forEach(this::loadIngredients);
+		views.forEach(this::loadCafe);
+		return views;
 	}
+
+
+	@Override
+	public Page<MealView> findAllViews(Pageable pageable, SimpleFilter filter) {
+		return repository.findAll(filter(filter), pageable);
+	}
+	
+	public Specification<MealView> filter(SimpleFilter filter){
+		return (root, cq,  cb) -> {
+			
+				return cb.like(root.get("title"), filter.getSearch()+"%");
+		};
+	}
+
+
+
 }
+
+
+
+
+
+
+
+

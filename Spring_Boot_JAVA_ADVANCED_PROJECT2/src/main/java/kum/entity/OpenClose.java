@@ -15,6 +15,13 @@ public class OpenClose extends AbstractEntity {
 	
 	private LocalTime time;
 	
+	
+	@OneToMany(mappedBy = "open")
+	private List<Cafe> openedCafes = new ArrayList<>();
+
+	@OneToMany(mappedBy = "close")
+	private List<Cafe> closedCafes = new ArrayList<>();
+	
 	public OpenClose() {
 	}
 	
@@ -23,12 +30,6 @@ public class OpenClose extends AbstractEntity {
 	public OpenClose(LocalTime time) {
 		this.time = time;
 	}
-	
-
-	@OneToMany(mappedBy = "open")
-	private List<Cafe> openedCafes = new ArrayList<>();
-	@OneToMany(mappedBy = "close")
-	private List<Cafe> closedCafes = new ArrayList<>();
 	
 	
 
@@ -56,4 +57,5 @@ public class OpenClose extends AbstractEntity {
 		this.time = time;
 	}
 
+	
 }
