@@ -3,6 +3,7 @@ package kum.repository.impl;
 import static org.springframework.data.jpa.repository.query.QueryUtils.toOrders;
 
 import java.math.BigDecimal;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,8 @@ import kum.entity.Cafe;
 import kum.entity.Cafe_;
 import kum.entity.Meal;
 import kum.entity.Meal_;
+import kum.entity.OpenClose;
+import kum.entity.OpenClose_;
 import kum.model.filter.CafeFilter;
 import kum.model.view.CafeIndexView;
 import kum.repository.CafeViewRepository;
@@ -104,12 +107,44 @@ private static class PredicateBuilder{
 		}
 	}
 	
+	void findByMinOpen(){
+		if(!cafeFilter.getMinOpen().isEmpty()){
+			Join<Cafe, OpenClose> join = root.join(Cafe_.open);
+			predicates.add(criteriaBuilder.greaterThanOrEqualTo(join.get(OpenClose_.time), LocalTime.parse(cafeFilter.getMinOpen())));
+		}
+		
+	}
+	void findByMaxOpen(){
+		if(!cafeFilter.getMaxOpen().isEmpty()){
+			Join<Cafe, OpenClose> join = root.join(Cafe_.open);
+			predicates.add(criteriaBuilder.lessThanOrEqualTo(join.get(OpenClose_.time), LocalTime.parse(cafeFilter.getMaxOpen())));
+		}
+	}
+	
+	void findByMinClose(){
+		if(!cafeFilter.getMinClose().isEmpty()){
+			Join<Cafe, OpenClose> join = root.join(Cafe_.close);
+			predicates.add(criteriaBuilder.greaterThanOrEqualTo(join.get(OpenClose_.time), LocalTime.parse(cafeFilter.getMinClose())));
+		}
+	}
+	
+	void findByMaxClose(){
+		if(!cafeFilter.getMaxClose().isEmpty()){
+			Join<Cafe, OpenClose> join = root.join(Cafe_.close);
+			predicates.add(criteriaBuilder.lessThanOrEqualTo(join.get(OpenClose_.time), LocalTime.parse(cafeFilter.getMaxClose())));
+		}
+	}
+	
 	Predicate toPredicate(){
 		findByMinRate();
 		findByMaxRate();
 		findByType();
 		findByMeals();
 		findByName();
+		findByMinOpen();
+		findByMaxOpen();
+		findByMinClose();
+		findByMaxClose();
 //		return criteriaBuilder.and(predicates.stream().toArray(Predicate[]::new));
 	return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));	
 		}

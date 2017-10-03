@@ -3,6 +3,9 @@ package kum.model.view;
 import java.math.BigDecimal;
 import java.util.List;
 
+import kum.entity.Cafe;
+import kum.entity.Cuisine;
+
 public class MealView {
 
 	
@@ -22,7 +25,7 @@ public class MealView {
 	
 	private int weight;
 	
-	private CafeIndexView cafe;
+	private String cafe;
 	
 	private List<String> ingredients;
 
@@ -41,6 +44,19 @@ public class MealView {
 		this.weight = weight;
 	}
 
+	public MealView(Integer id, String title, String description, BigDecimal price, String photoUrl, int version,
+			Cuisine cuisine, int weight, Cafe cafe) {
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.price = price;
+		this.photoUrl = photoUrl;
+		this.version = version;
+		this.cuisine = cuisine.getName();
+		this.weight = weight;
+		this.cafe = cafe.getName();
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -57,10 +73,13 @@ public class MealView {
 		this.title = title;
 	}
 
-	public CafeIndexView getCafe() {
+	public String getCafe() {
 		return cafe;
 	}
 
+	public void setCafe(String cafe) {
+		this.cafe = cafe;
+	}
 	
 
 	public String getDescription() {
@@ -119,7 +138,4 @@ public class MealView {
 		this.ingredients = ingredients;
 	}
 
-	public void setCafe(CafeIndexView cafe) {
-		this.cafe = cafe;
-	}
 }

@@ -13,9 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import kum.model.filter.SimpleFilter;
+import kum.model.filter.MealFilter;
 import kum.model.request.CommentRequest;
+import kum.repository.MealViewRepository;
+import kum.service.CafeService;
 import kum.service.CommentService;
+import kum.service.CuisineService;
+import kum.service.IngredientService;
 import kum.service.MealService;
 
 @Controller
@@ -26,6 +30,12 @@ public class MealController {
 	private final MealService mealService;
 	
 	@Autowired
+	private CafeService cafeService;
+	
+	@Autowired
+	private CuisineService cuisineService;
+	
+	@Autowired
 	private CommentService commentService;
 	
 	
@@ -34,18 +44,20 @@ public class MealController {
 		this.mealService = mealService;
 	}
 	
-	@ModelAttribute("filter")
-	public SimpleFilter getFilter(){
-		return new SimpleFilter();
+	@ModelAttribute("mealFilter")
+	public MealFilter getFilter(){
+		return new MealFilter();
 	}
 	@GetMapping
-	public String show(Model model, @PageableDefault Pageable pageable, @ModelAttribute("filter") SimpleFilter filter){
-		model.addAttribute("meals", mealService.findAllViews(pageable, filter));
+	public String show(Model model, @PageableDefault Pageable pageable, @ModelAttribute("mealFilter") MealFilter mealFilter){
+		model.addAttribute("meals", mealService.findAll(pageable, mealFilter));
+		model.addAttribute("cafes", cafeService.findAllIndexViews());
+		model.addAttribute("cuisines", cuisineService.findAll());
 		return "meals";
 	}
 	
 	@GetMapping("/{id}")
-	public String showIndexMeal(Model model, @PathVariable Integer id, @PageableDefault Pageable pageable, @ModelAttribute("filter") SimpleFilter filter){
+	public String showIndexMeal(Model model, @PathVariable Integer id, @PageableDefault Pageable pageable){
 		model.addAttribute("oneMeal", mealService.findOne(id));
 		model.addAttribute("comments", commentService.findCommentByMealId(id));
 		return "meal";

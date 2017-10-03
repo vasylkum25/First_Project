@@ -12,20 +12,25 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kum.entity.Meal;
+import kum.model.filter.MealFilter;
 import kum.model.filter.SimpleFilter;
 import kum.model.request.MealRequest;
 import kum.model.view.MealView;
 import kum.repository.MealRepository;
+import kum.repository.MealViewRepository;
 import kum.service.MealService;
 
 @Service
 public class MealServiceImpl implements MealService {
 
 	private final MealRepository repository;
+	
+	private final MealViewRepository mealViewRepository;
 
 	@Autowired
-	public MealServiceImpl(MealRepository repository) {
+	public MealServiceImpl(MealRepository repository, MealViewRepository mealViewRepository) {
 		this.repository = repository;
+		this.mealViewRepository = mealViewRepository;
 	}
 
 
@@ -50,7 +55,7 @@ public class MealServiceImpl implements MealService {
 	}
 	
 	private void loadCafe(MealView view) {
-		view.setCafe(repository.findCafeByMealId(view.getId()));
+		view.setCafe((repository.findCafeByMealId(view.getId())).getName());
 	}
 
 	
@@ -119,15 +124,10 @@ public class MealServiceImpl implements MealService {
 
 
 	@Override
-	public Page<MealView> findAllViews(Pageable pageable, SimpleFilter filter) {
-		return repository.findAll(filter(filter), pageable);
-	}
-	
-	public Specification<MealView> filter(SimpleFilter filter){
-		return (root, cq,  cb) -> {
-			
-				return cb.like(root.get("title"), filter.getSearch()+"%");
-		};
+	public Page<MealView> findAll(Pageable pageable, MealFilter mealFilter) {
+		Page<MealView> views = mealViewRepository.findAll(pageable, mealFilter);
+		views.forEach(this::loadIngredients);
+		return views;
 	}
 
 

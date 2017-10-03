@@ -24,7 +24,7 @@
 						<td><a href="/meal/${meal.id}">${meal.title}</a></td>
 						<td>${meal.description}</td>
 						<td>${meal.price}</td>
-						<td><a href="/cafe/${meal.cafe.id}">${meal.cafe.name}</a></td>
+						<td>${meal.cafe}</td>
 						<td>${meal.weight}</td>
 						<td>${meal.cuisine}</td>
 						<td>
@@ -36,7 +36,6 @@
 						<td class = "text-center">
 						<a href = "/profile/ownMeal/update/${meal.id}"  class="btn btn-outline-danger btn-sm">Update</a>
 						<a href = "/profile/ownMeal/delete/${meal.id}" class="btn btn-outline-warning btn-sm">Delete</a>
-						<a href="/profile/ownCafe/${meal.cafe.id}/tables"><button class="btn btn-sm btn-outline-success">Table</button></a>
 						</td>
 						</sec:authorize>
 					</tr>

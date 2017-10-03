@@ -58,7 +58,7 @@ public class TableReserveController {
 	@GetMapping("/{idCafe}/tables/cancel")
 	public String cancelReserve(SessionStatus session){
 		session.setComplete();
-		return "redirect:/cafe/{idCafeid}/tables";
+		return "redirect:/cafe/{idCafe}/tables";
 	}
 	
 }

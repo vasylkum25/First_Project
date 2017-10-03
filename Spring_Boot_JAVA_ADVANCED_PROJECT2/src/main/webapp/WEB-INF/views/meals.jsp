@@ -1,14 +1,38 @@
 <%@ include file="header.jsp"%>
 <div class = "container  mt-3">
-	<div class="col-6">
-						<form:form action="/meal" method="GET" modelAttribute="filter">
-							<div class="form-group row">
-								<div class="col-12">
-									<form:input class="form-control" path="search" placeholder="Search"/>
-								</div>
-							</div>
-						
-						</form:form>
+	<div class="col-3">
+	<form:form action="/meal" method="GET" modelAttribute="mealFilter">
+					<div class="form-group row">
+						<div class="col-12">
+							<form:input class="form-control" path="search" placeholder="Search"/>
+						</div>
+					</div>
+					
+					<div class="form-group row">
+						<div class="col-6">
+							<form:input path="minPrice" class="form-control" placeholder="Min price"/>
+						</div>
+						<div class="col-6">
+							<form:input path="maxPrice" class="form-control" placeholder="Max price"/>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-12">
+							<form:select class="form-control" items="${cafes}" path="cafeId" element="div" itemLabel="name" itemValue="id"/>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-12">
+							<form:select class="form-control" items="${cuisines}" path="cuisineId" element="div" itemLabel="name" itemValue="id"/>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-12">
+        					<button type="submit" class="btn btn-outline-success btn-sm">Search</button>
+      					</div>
+					</div>
+				</form:form>
+		</div>
 	</div>
 	<div class="col-6">
  				<div class="row">
@@ -25,9 +49,9 @@
  					</div>
 				</div>
  			</div>
-	</div> 
+	 
 	<div class="row" >
-		<div class = "col-12">
+		<div class = "col-9">
 			<table class= "table table-bordered">
 				<tr>
 					<th class = "text-center">Title</th>
@@ -43,12 +67,12 @@
 						<td><a href="/meal/${meal.id}">${meal.title}</a></td>
 						<td>${meal.description}</td>
 						<td>${meal.price}</td>
-						<td><a href="/cafe/${meal.cafe.id}">${meal.cafe.name}</a></td>
+						<td>${meal.cafe}</td>
 						<td>${meal.weight}</td>
-						<td>${meal.cuisine.name}</td>
+						<td>${meal.cuisine}</td>
 						<td>
 						<c:forEach var="ingredient" items="${meal.ingredients}">
-							${ingredient.name} 
+							${ingredient} 
 						</c:forEach>
 						</td>
 					</tr>
@@ -61,6 +85,5 @@
  				<custom:pageable page="${meals}"/>
  			</div>
  		</div>
-</div>
 </body>
 </html>
