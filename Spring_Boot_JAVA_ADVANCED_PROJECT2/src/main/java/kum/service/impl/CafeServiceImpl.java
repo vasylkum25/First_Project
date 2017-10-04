@@ -13,11 +13,14 @@ import org.springframework.stereotype.Service;
 
 import kum.entity.Cafe;
 import kum.entity.Type;
+import kum.model.filter.CafeFilter;
 import kum.model.filter.SimpleFilter;
 import kum.model.request.CafeRequest;
 import kum.model.view.CafeIndexView;
 import kum.model.view.CafeView;
 import kum.repository.CafeRepository;
+import kum.repository.CafeViewRepository;
+import kum.repository.OwnCafeViewRepository;
 import kum.repository.UserRepository;
 import kum.service.CafeService;
 
@@ -25,13 +28,15 @@ import kum.service.CafeService;
 public class CafeServiceImpl implements CafeService  {
 	
 	private final CafeRepository repository;
-	
 	private final UserRepository userRepository;
-	
+	private final CafeViewRepository cafeViewRepository;
+	private final OwnCafeViewRepository ownCafeViewRepository;
 	@Autowired
-	public CafeServiceImpl(CafeRepository repository, UserRepository userRepository) {
+	public CafeServiceImpl(CafeRepository repository, UserRepository userRepository, CafeViewRepository cafeViewRepository, OwnCafeViewRepository ownCafeViewRepository) {
 		this.repository = repository;
 		this.userRepository = userRepository;
+		this.cafeViewRepository = cafeViewRepository;
+		this.ownCafeViewRepository = ownCafeViewRepository;
 	}
 
 	@Override
@@ -119,6 +124,16 @@ public class CafeServiceImpl implements CafeService  {
 				if(filter.getSearch().isEmpty()) return null;
 				return cb.like(root.get("name"), filter.getSearch()+"%");
 		};
+	}
+
+	@Override
+	public Page<CafeIndexView> findAll(CafeFilter cafeFilter, Pageable pageable) {
+		return cafeViewRepository.findAll(cafeFilter, pageable);
+	}
+
+	@Override
+	public Page<CafeIndexView> findAll(CafeFilter cafeFilter, Pageable pageable, Principal principal) {
+		return ownCafeViewRepository.findAll(cafeFilter, pageable, principal);
 	}
 }
 

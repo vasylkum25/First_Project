@@ -5,7 +5,40 @@
 			<a href="/profile/ownMeal/add"><button class="btn btn-sm btn-outline-success ml-3">New Meal</button></a>
 			</sec:authorize>
 	<div class="row" >
-		<div class = "col-12">
+	<div class="col-3">
+	<form:form action="/profile/ownMeal" method="GET" modelAttribute="mealFilter">
+					<div class="form-group row">
+						<div class="col-12">
+							<form:input class="form-control" path="search" placeholder="Search"/>
+						</div>
+					</div>
+					
+					<div class="form-group row">
+						<div class="col-6">
+							<form:input path="minPrice" class="form-control" placeholder="Min price"/>
+						</div>
+						<div class="col-6">
+							<form:input path="maxPrice" class="form-control" placeholder="Max price"/>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-12">
+							<form:select class="form-control" items="${cafes}" path="cafeId" element="div" itemLabel="name" itemValue="id"/>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-12">
+							<form:select class="form-control" items="${cuisines}" path="cuisineId" element="div" itemLabel="name" itemValue="id"/>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-12">
+        					<button type="submit" class="btn btn-outline-success btn-sm">Search</button>
+      					</div>
+					</div>
+				</form:form>
+		</div>
+		<div class = "col-9">
 			<table class= "table table-bordered">
 				<tr>
 					<th class = "text-center">Title</th>

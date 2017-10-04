@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import kum.entity.Type;
+import kum.model.filter.CafeFilter;
 import kum.model.request.CafeRequest;
 import kum.service.CafeService;
+import kum.service.MealService;
 import kum.service.OpenCloseService;
 import kum.validation.flag.CafeFlag;
 
@@ -30,15 +32,22 @@ public class AdministratorCafeController {
 	
 	private final CafeService cafeService;
 	private final OpenCloseService openService;
+	private final MealService mealService;
 	
 	@Autowired
-	public AdministratorCafeController(CafeService cafeService, OpenCloseService openService) {
+	public AdministratorCafeController(CafeService cafeService, OpenCloseService openService, MealService mealService) {
 		this.cafeService = cafeService;
 		this.openService = openService;
+		this.mealService = mealService;
 	}
 	@ModelAttribute("cafe")
 	public CafeRequest getForm(){
 		return new CafeRequest();
+	}
+	
+	@ModelAttribute("cafeFilter")
+	public CafeFilter getFilter(){
+		return new CafeFilter();
 	}
 	
 	@GetMapping
@@ -47,9 +56,11 @@ public class AdministratorCafeController {
 	}
 	
 	@GetMapping("/ownCafe")
-	public String showOwnCafes(Model model, Principal principal, @PageableDefault Pageable pageable){
+	public String showOwnCafes(Model model, Principal principal, @PageableDefault Pageable pageable, @ModelAttribute("cafeFilter") CafeFilter cafeFilter){
 		if(principal!=null){
-		model.addAttribute("ownCafes", cafeService.findAllCafesByUser(principal.getName(), pageable ));
+		model.addAttribute("meals", mealService.findAll());
+		model.addAttribute("ownCafes", cafeService.findAll(cafeFilter, pageable, principal));
+		
 		}
 		return "ownCafes";
 	}

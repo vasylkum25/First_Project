@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import kum.model.filter.MealFilter;
 import kum.model.filter.SimpleFilter;
 import kum.model.request.MealRequest;
 import kum.service.CafeService;
@@ -52,15 +53,17 @@ public class AdministratorMealController {
 		return new MealRequest();
 	}
 	
-	@ModelAttribute("filter")
-	public SimpleFilter getFilter(){
-		return new SimpleFilter();
+	@ModelAttribute("mealFilter")
+	public MealFilter getFilter(){
+		return new MealFilter();
 	}
 	
 	@GetMapping
-	public String showOwnMeals(Model model, Principal principal, @PageableDefault Pageable pageable, @ModelAttribute("filter") SimpleFilter filter ){
+	public String showOwnMeals(Model model, Principal principal, @PageableDefault Pageable pageable, @ModelAttribute("mealFilter") MealFilter mealFilter ){
 		if(principal!=null){
-		model.addAttribute("ownMeals", mealService.findAllMealsByUser(principal.getName(), pageable));
+		model.addAttribute("ownMeals", mealService.findAllOwnMeal(pageable, mealFilter, principal));
+		model.addAttribute("cafes", cafeService.findAllIndexViews());
+		model.addAttribute("cuisines", cuisineService.findAll());
 		}
 		return "ownMeals";
 }

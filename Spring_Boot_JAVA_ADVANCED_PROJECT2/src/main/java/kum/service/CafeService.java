@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import kum.model.filter.CafeFilter;
 import kum.model.filter.SimpleFilter;
 import kum.model.request.CafeRequest;
 import kum.model.view.CafeIndexView;
@@ -14,7 +15,7 @@ import kum.model.view.CafeView;
 public interface CafeService{
 	
 	List<String> findAllCafes();
-		
+			
 	List<CafeIndexView> findAllIndexViews();
 
 	CafeRequest findOneCafe(Integer id);
@@ -32,6 +33,10 @@ public interface CafeService{
 	Page<CafeIndexView> findAllIndexViews(Pageable pageable);
 	
 	Page<CafeIndexView> findAllIndexViews(Pageable pageable, SimpleFilter filter);
+	
+	Page<CafeIndexView> findAll(CafeFilter cafeFilter, Pageable pageable);
+	
+	Page<CafeIndexView> findAll(CafeFilter cafeFilter, Pageable pageable, Principal principal);
 	
 	
 

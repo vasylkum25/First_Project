@@ -21,6 +21,7 @@ import kum.repository.CafeViewRepository;
 import kum.repository.MealRepository;
 import kum.service.CafeService;
 import kum.service.CommentService;
+import kum.service.MealService;
 
 @Controller
 @RequestMapping("/cafe")
@@ -29,16 +30,13 @@ public class CafeController {
 
 	private final CafeService cafeService;
 	private final CommentService commentService;
-	private final CafeViewRepository cafeViewRepository;
-	private final MealRepository mealRepository;
+	private final MealService mealService;
 	
 	@Autowired
-	public CafeController(CafeService cafeService, CommentService commentService,
-			CafeViewRepository cafeViewRepository, MealRepository mealRepository ) {
+	public CafeController(CafeService cafeService, CommentService commentService, MealService mealService) {
 		this.cafeService = cafeService;
 		this.commentService = commentService;
-		this.cafeViewRepository = cafeViewRepository;
-		this.mealRepository = mealRepository;
+		this.mealService = mealService;
 	}
 
 	@ModelAttribute("filter")
@@ -53,8 +51,8 @@ public class CafeController {
 	
 	@GetMapping
 	public String show(Model model, @PageableDefault Pageable pageable, @ModelAttribute("filter") SimpleFilter filter, @ModelAttribute("cafeFilter") CafeFilter cafeFilter){
-		model.addAttribute("meals", mealRepository.findAll());
-		model.addAttribute("cafes", cafeViewRepository.findAll(cafeFilter, pageable));
+		model.addAttribute("meals", mealService.findAll());
+		model.addAttribute("cafes", cafeService.findAll(cafeFilter, pageable));
 		return "cafe";
 	}
 	@GetMapping("/{id}")

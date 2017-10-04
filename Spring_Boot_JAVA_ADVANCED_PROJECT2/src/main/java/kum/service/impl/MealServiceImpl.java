@@ -1,36 +1,37 @@
 package kum.service.impl;
 
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.List;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kum.entity.Meal;
 import kum.model.filter.MealFilter;
-import kum.model.filter.SimpleFilter;
 import kum.model.request.MealRequest;
 import kum.model.view.MealView;
 import kum.repository.MealRepository;
 import kum.repository.MealViewRepository;
+import kum.repository.OwnMealViewRepository;
 import kum.service.MealService;
 
 @Service
 public class MealServiceImpl implements MealService {
 
 	private final MealRepository repository;
-	
 	private final MealViewRepository mealViewRepository;
+	private final OwnMealViewRepository ownMealViewRepository;
 
 	@Autowired
-	public MealServiceImpl(MealRepository repository, MealViewRepository mealViewRepository) {
+	public MealServiceImpl(MealRepository repository, MealViewRepository mealViewRepository, OwnMealViewRepository ownMealViewRepository) {
 		this.repository = repository;
 		this.mealViewRepository = mealViewRepository;
+		this.ownMealViewRepository = ownMealViewRepository;
 	}
 
 
@@ -121,6 +122,11 @@ public class MealServiceImpl implements MealService {
 		views.forEach(this::loadCafe);
 		return views;
 	}
+	
+	@Override
+	public List<Meal> findAll() {
+		return repository.findAll();
+	}
 
 
 	@Override
@@ -129,6 +135,15 @@ public class MealServiceImpl implements MealService {
 		views.forEach(this::loadIngredients);
 		return views;
 	}
+
+
+	@Override
+	public Page<MealView> findAllOwnMeal(Pageable pageable, MealFilter mealFilter, Principal principal) {
+		Page<MealView> views = ownMealViewRepository.findAll(pageable, mealFilter, principal);
+		views.forEach(this::loadIngredients);
+		return views;
+	}
+
 
 
 
