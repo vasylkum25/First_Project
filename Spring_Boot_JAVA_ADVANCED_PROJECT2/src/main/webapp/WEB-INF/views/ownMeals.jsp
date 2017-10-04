@@ -1,7 +1,7 @@
 <%@ include file="header.jsp"%>
 <div class = "container  mt-3">
 	
-		 <sec:authorize access="hasRole('ROLE_ADMIN')">
+		 <sec:authorize access="hasRole('ROLE_CAFE')">
 			<a href="/profile/ownMeal/add"><button class="btn btn-sm btn-outline-success ml-3">New Meal</button></a>
 			</sec:authorize>
 	<div class="row" >
@@ -48,7 +48,7 @@
 					<th class = "text-center">Weight</th>
 					<th class = "text-center">Cuisine</th>
 					<th class = "text-center">Ingredients</th>
-					<sec:authorize access="hasRole('ROLE_ADMIN')">
+					<sec:authorize access="hasRole('ROLE_CAFE')">
 					<th class = "text-center">Option</th>
 					</sec:authorize>
 				</tr>
@@ -65,7 +65,7 @@
 							${ingredient} 
 						</c:forEach>
 						</td>
-						<sec:authorize access="hasRole('ROLE_ADMIN')">
+						<sec:authorize access="hasRole('ROLE_CAFE')">
 						<td class = "text-center">
 						<a href = "/profile/ownMeal/update/${meal.id}"  class="btn btn-outline-danger btn-sm">Update</a>
 						<a href = "/profile/ownMeal/delete/${meal.id}" class="btn btn-outline-warning btn-sm">Delete</a>

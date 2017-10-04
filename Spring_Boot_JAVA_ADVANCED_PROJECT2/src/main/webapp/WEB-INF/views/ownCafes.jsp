@@ -3,7 +3,7 @@
 <div class = "container mt-3">
 		<div class="row" >
 			<div class = "col-6">
-			 <sec:authorize access="hasRole('ROLE_ADMIN')">
+			 <sec:authorize access="hasRole('ROLE_CAFE')">
 			<a href="/profile/ownCafe/add"><button class="btn btn-sm btn-outline-success ml-3">New Cafe</button></a>
 			</sec:authorize>
 			</div>
@@ -87,7 +87,7 @@
 					<th class = "text-center">Description</th>
 					<th class = "text-center">Photo</th>
 					<th class = "text-center">Type</th>
-					<sec:authorize access="hasRole('ROLE_ADMIN')">
+					<sec:authorize access="hasRole('ROLE_CAFE')">
 					<th class = "text-center">Option</th>
 					</sec:authorize>
 				</tr>
@@ -98,7 +98,7 @@
 						<td>${cafe.shortDescription}</td>
 						<td>${cafe.photoUrl}</td>
 						<td>${cafe.type}</td>
-						<sec:authorize access="hasRole('ROLE_ADMIN')">
+						<sec:authorize access="hasRole('ROLE_CAFE')">
 						<td class = "text-center">
 						<a href = "/profile/ownCafe/update/${cafe.id }"  class="btn btn-outline-danger btn-sm">Update</a>
 						<a href = "/profile/ownCafe/delete/${cafe.id }" class="btn btn-outline-warning btn-sm">Delete</a>

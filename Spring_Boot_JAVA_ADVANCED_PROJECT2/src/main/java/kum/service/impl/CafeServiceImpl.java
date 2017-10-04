@@ -2,6 +2,7 @@ package kum.service.impl;
 
 
 import java.security.Principal;
+import java.time.LocalTime;
 import java.util.List;
 
 
@@ -12,6 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import kum.entity.Cafe;
+import kum.entity.OpenClose;
 import kum.entity.Type;
 import kum.model.filter.CafeFilter;
 import kum.model.filter.SimpleFilter;
@@ -20,6 +22,7 @@ import kum.model.view.CafeIndexView;
 import kum.model.view.CafeView;
 import kum.repository.CafeRepository;
 import kum.repository.CafeViewRepository;
+import kum.repository.OpenCloseRepository;
 import kum.repository.OwnCafeViewRepository;
 import kum.repository.UserRepository;
 import kum.service.CafeService;
@@ -31,12 +34,14 @@ public class CafeServiceImpl implements CafeService  {
 	private final UserRepository userRepository;
 	private final CafeViewRepository cafeViewRepository;
 	private final OwnCafeViewRepository ownCafeViewRepository;
+	private final OpenCloseRepository openCloseRepository;
 	@Autowired
-	public CafeServiceImpl(CafeRepository repository, UserRepository userRepository, CafeViewRepository cafeViewRepository, OwnCafeViewRepository ownCafeViewRepository) {
+	public CafeServiceImpl(CafeRepository repository, UserRepository userRepository, CafeViewRepository cafeViewRepository, OwnCafeViewRepository ownCafeViewRepository, OpenCloseRepository openCloseRepository) {
 		this.repository = repository;
 		this.userRepository = userRepository;
 		this.cafeViewRepository = cafeViewRepository;
 		this.ownCafeViewRepository = ownCafeViewRepository;
+		this.openCloseRepository = openCloseRepository;
 	}
 
 	@Override
@@ -54,8 +59,8 @@ public class CafeServiceImpl implements CafeService  {
 		Cafe cafe = repository.findOne(id);
 		CafeRequest request = new CafeRequest();
 		request.setAddress(cafe.getAddress());
-		request.setClose(cafe.getClose());
-		request.setOpen(cafe.getOpen());
+		request.setClose(cafe.getClose().getTime());
+		request.setOpen(cafe.getOpen().getTime());
 		request.setFullDescription(cafe.getFullDescription());
 		request.setId(cafe.getId());
 		request.setName(cafe.getName());
@@ -73,8 +78,8 @@ public class CafeServiceImpl implements CafeService  {
 	public void save(CafeRequest request, Principal principal) {
 		Cafe cafe = new Cafe();
 		cafe.setAddress(request.getAddress());
-		cafe.setClose(request.getClose());
-		cafe.setOpen(request.getOpen());
+		cafe.setClose(openCloseRepository.findByTime(request.getClose()));
+		cafe.setOpen(openCloseRepository.findByTime(request.getOpen()));
 		cafe.setFullDescription(request.getFullDescription());
 		cafe.setId(request.getId());
 		cafe.setName(request.getName());

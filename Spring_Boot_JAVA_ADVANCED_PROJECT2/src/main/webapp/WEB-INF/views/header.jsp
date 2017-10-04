@@ -37,7 +37,9 @@
         <a class="nav-link" href="#"><i class="fa fa-users" aria-hidden="true"></i> Users</a>
       </li>
       <li class="nav-item">
+       <sec:authorize access="hasRole('ROLE_CAFE')">
         <a class="nav-link" href="/profile"><i class="fa fa-user" aria-hidden="true"></i> Administrator</a>
+        </sec:authorize>
       </li>
     </ul>
   </div>

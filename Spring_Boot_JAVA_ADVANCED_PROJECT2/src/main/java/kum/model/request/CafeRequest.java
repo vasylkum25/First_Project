@@ -1,6 +1,7 @@
 package kum.model.request;
 
 import java.math.BigDecimal;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,6 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import kum.entity.Meal;
-import kum.entity.OpenClose;
 import kum.validation.flag.CafeFlag;
 
 public class CafeRequest {
@@ -42,9 +42,9 @@ public class CafeRequest {
 	@Email(message="Невірний формат", groups=CafeFlag.class)
 	private String web;
 	
-	private OpenClose open;
+	private LocalTime open;
 
-	private OpenClose close;
+	private LocalTime close;
 		
 	private List<Meal> meals = new ArrayList<>();
 
@@ -135,19 +135,19 @@ public class CafeRequest {
 		this.web = web;
 	}
 
-	public OpenClose getOpen() {
+	public LocalTime getOpen() {
 		return open;
 	}
 
-	public void setOpen(OpenClose open) {
+	public void setOpen(LocalTime open) {
 		this.open = open;
 	}
 
-	public OpenClose getClose() {
+	public LocalTime getClose() {
 		return close;
 	}
 
-	public void setClose(OpenClose close) {
+	public void setClose(LocalTime close) {
 		this.close = close;
 	}
 
