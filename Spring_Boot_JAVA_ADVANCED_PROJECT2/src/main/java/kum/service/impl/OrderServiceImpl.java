@@ -94,19 +94,5 @@ public class OrderServiceImpl implements OrderService {
 		order.setMeals(repository.findMealByOrderId(order.getId()));
 	}
 	
-	private void updatePrice(){
-		List<Order> orders = repository.findAll();
-		orders.forEach(this::loadMeals);
-		for (Order order : orders) {
-		BigDecimal tot = BigDecimal.ZERO;
-		List<Meal>	meals = order.getMeals();
-		for (Meal meal : meals) {
-			tot =tot.add(meal.getPrice());
-								}
-		order.setTotalPrice(tot);
-		repository.save(order);
-		
-		}
-	}
 
 }

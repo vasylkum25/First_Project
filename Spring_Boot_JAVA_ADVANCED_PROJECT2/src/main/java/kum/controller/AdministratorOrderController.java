@@ -60,7 +60,6 @@ public class AdministratorOrderController {
 		orderService.saveMealInOrder(tableId, mealId);
 		model.addAttribute("meals", mealService.findAllMealsByCafeId(cafeId, pageable));
 		model.addAttribute("table", tableService.findOne(tableId));
-		System.out.println("Save");
 		return "order";
 	}
 	
