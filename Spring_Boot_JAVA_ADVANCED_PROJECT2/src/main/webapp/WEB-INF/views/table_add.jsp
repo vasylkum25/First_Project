@@ -2,6 +2,13 @@
 	<div class="container mt-3">
 		<div class="row">
 			<div class="col-12">
+			<div class="col-6">
+ 				<div class="row">
+ 					<div class="col-6 text-center">
+ 						<custom:size posibleSizes="1,2,5,10" size="${tables.size}" />
+ 					</div>
+				</div>
+ 			</div>
 				<form:form action="/profile/ownCafe/${cafe.id}/tables" method="POST" modelAttribute="table">
 				<div class="form-group row">
 						<label class="col-2 col-form-label" for="number">Number:</label>
@@ -64,9 +71,7 @@
 							</td>
 							<td>
 					<c:if test="${table.isFree.equals(true)}">
-								<sec:authorize access="hasRole('ROLE_CAFE')">
 									<a href="/profile/ownCafe/${table.cafe.id}/table/${table.id}/order"><button class="btn btn-sm btn-outline-success">Order</button></a>
-								</sec:authorize>
 					</c:if>		
 							</td>
 							<c:if test="${table.isFree.equals(true)}">

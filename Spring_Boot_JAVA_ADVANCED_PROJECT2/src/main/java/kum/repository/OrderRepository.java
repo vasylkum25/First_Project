@@ -17,5 +17,10 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 	@Query("SELECT m.title FROM Order o JOIN o.meals m JOIN o.table t WHERE t.id=?1")
 	List<Meal> findMealByTableId(Integer id);
 	
+	@Query("SELECT m FROM Meal m JOIN m.orders o WHERE o.id=?1")
+	List<Meal> findMealByOrderId(Integer id);
+	
 }
 
+//@Query("SELECT i.name FROM Ingredient i JOIN i.meals m WHERE m.id=?1")
+//List<String> findAllIngredientsByMealId(Integer id);

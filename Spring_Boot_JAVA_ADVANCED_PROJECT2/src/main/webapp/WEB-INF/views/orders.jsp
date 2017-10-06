@@ -6,15 +6,18 @@
 			<table class= "table table-bordered">
 				<tr>
 					<th class = "text-center">Title</th>
+					<th class = "text-center">Price</th>
 					<th class = "text-center">Option</th>
 				</tr>
 					<c:forEach var="order" items="${orders}">
 					<tr>
 						<td>
-						${order.id}
-						<%-- <c:forEach var="meal" items="${order.meals}">
+						 <c:forEach var="meal" items="${order.meals}">
 							${meal.title}
-						</c:forEach> --%>
+						</c:forEach> 
+						</td>
+						<td>
+						 	${order.totalPrice}
 						</td>
 						<td class = "text-center">
 						<a href = "/admin/order/update/${meal.id }"  class="btn btn-outline-danger btn-sm">Zamovutu</a>

@@ -23,7 +23,6 @@
 						</td>
 						<td class = "text-center">
 						<a href = "/profile/ownCafe/${table.cafe.id}/table/${table.id}/order/${meal.id}"  class="btn btn-outline-danger btn-sm">Zamovutu</a>
-						<a href = "/admin/order/delete/${meal.id }" class="btn btn-outline-warning btn-sm">Delete</a>
 						</td>
 					</tr>
 					</c:forEach>

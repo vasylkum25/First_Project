@@ -15,12 +15,10 @@ public interface OrderService {
 	
 	void delete(Integer id);
 	
-	Page<MealView> saveTableInOrder (String title, Pageable pageable, Integer idTable);
+	Page<MealView> saveTableInOrder (Pageable pageable, Integer idTable, Integer idCafe);
 	
 	List<Order> findAll();
 	
 	void saveMealInOrder(Integer idTable, Integer idMeal);
-	
-	List<Meal> findMealByTableId(Integer id);
 	
 }

@@ -49,14 +49,14 @@ public class AdministratorOrderController {
 	
 	
 	@GetMapping("/ownCafe/{cafeId}/table/{tableId}/order")
-	public String addOrder(Model model, Principal principal, @PageableDefault Pageable pageable, @PathVariable Integer tableId){
-		model.addAttribute("meals", orderService.saveTableInOrder(principal.getName(), pageable, tableId));
+	public String addOrder(Model model, Principal principal, @PageableDefault Pageable pageable, @PathVariable Integer tableId, @PathVariable Integer cafeId){
+		model.addAttribute("meals", orderService.saveTableInOrder(pageable, tableId, cafeId));
 		model.addAttribute("table", tableService.findOne(tableId));
 		return "order";
 	}
 	
 	@GetMapping("/ownCafe/{cafeId}/table/{tableId}/order/{mealId}")
-	public String saveMealInOrder(Model model, Principal principal, @PageableDefault Pageable pageable, @PathVariable Integer cafeId, @PathVariable Integer mealId, @PathVariable Integer tableId){
+	public String saveMealInOrder(Model model, @PageableDefault Pageable pageable, @PathVariable Integer cafeId, @PathVariable Integer mealId, @PathVariable Integer tableId){
 		orderService.saveMealInOrder(tableId, mealId);
 		model.addAttribute("meals", mealService.findAllMealsByCafeId(cafeId, pageable));
 		model.addAttribute("table", tableService.findOne(tableId));

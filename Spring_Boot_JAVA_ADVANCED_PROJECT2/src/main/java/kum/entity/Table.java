@@ -19,10 +19,19 @@ public class Table extends AbstractEntity{
 	
 	private String name;
 	
+	private int totalPrice;
+	
 	private String phone;
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Cafe cafe;
 	
+	public int getTotalPrice() {
+		return totalPrice;
+	}
+	
+	public void setTotalPrice(int totalPrice) {
+		this.totalPrice = totalPrice;
+	}
 	public String getName() {
 		return name;
 	}

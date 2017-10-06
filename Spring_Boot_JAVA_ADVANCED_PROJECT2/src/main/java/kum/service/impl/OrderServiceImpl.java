@@ -2,6 +2,7 @@ package kum.service.impl;
 
 
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,22 +51,19 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Page<MealView> saveTableInOrder(String title, Pageable pageable, Integer idTable) {
-		Order order = new Order();
-//		List<MealView> meals =new ArrayList<>();
-//		meals.add(mealRepository.findOne(idMeal));
-		order.setTable(tableRepository.findOne(idTable));
+	public Page<MealView> saveTableInOrder(Pageable pageable, Integer idTable, Integer idCafe) {
+		Order order =repository.findOrderByTableId(idTable);
+			if(order!=null){
+				order.setTable(tableRepository.findOne(idTable));
+			}else{
+				order = new Order();
+				order.setTable(tableRepository.findOne(idTable));
+				order.setTotalPrice(BigDecimal.ZERO);
+			}
 		repository.save(order);
-		return mealService.findAllMealsByUser(title, pageable);
+		return mealService.findAllMealsByCafeId(idCafe, pageable);
 	}
 
-//	@Override
-//	@Transactional(readOnly = true)
-//	public List<Order> findAll() {
-//		List<Order> orders = repository.findAll();
-//		orders.forEach(this::loadMeals);
-//		return orders;
-//	}
 
 	@Override
 	public void saveMealInOrder(Integer idTable, Integer idMeal) {
@@ -76,37 +74,39 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<Order> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Order> orders = repository.findAll();
+		orders.forEach(this::loadMeals);
+		for (Order order : orders) {
+		BigDecimal tot = BigDecimal.ZERO;
+		List<Meal>	meals = order.getMeals();
+		for (Meal meal : meals) {
+			tot =tot.add(meal.getPrice());
+								}
+		order.setTotalPrice(tot);
+		
+		}
+		return orders;
 	}
 
-	@Override
-	public List<Meal> findMealByTableId(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+	private void loadMeals(Order order) {
+		order.setMeals(repository.findMealByOrderId(order.getId()));
 	}
 	
-//	@Override
-//	@Transactional(readOnly = true)
-//	public List<MealView> findAllViews() {
-//		List<MealView> views = repository.findAllViews();
-//		views.forEach(this::loadIngredients);
-//		views.forEach(this::loadCafe);
-//		
-//		return views;
-//	}
-
-//	private void loadMeals(Order order) {
-//		order.setMeals(mealRepository.);
-//	}
-
-//	private void loadMeal(Order order) {
-//		view.setCafe((repository.f);
-//	}
-//	
-
-
-
+	private void updatePrice(){
+		List<Order> orders = repository.findAll();
+		orders.forEach(this::loadMeals);
+		for (Order order : orders) {
+		BigDecimal tot = BigDecimal.ZERO;
+		List<Meal>	meals = order.getMeals();
+		for (Meal meal : meals) {
+			tot =tot.add(meal.getPrice());
+								}
+		order.setTotalPrice(tot);
+		repository.save(order);
+		
+		}
+	}
 
 }

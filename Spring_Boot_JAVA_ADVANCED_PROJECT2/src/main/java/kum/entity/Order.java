@@ -1,5 +1,6 @@
 package kum.entity;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,17 @@ public class Order extends AbstractEntity{
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private kum.entity.Table table;
+
+	private BigDecimal totalPrice;
+	
+	public BigDecimal getTotalPrice() {
+		return totalPrice;
+	}
+
+
+	public void setTotalPrice(BigDecimal totalPrice) {
+		this.totalPrice = totalPrice;
+	}
 
 
 	public List<Meal> getMeals() {
