@@ -87,5 +87,11 @@ public class CommentServiceImpl implements CommentService {
 		commentRepository.save(comment);
 	}
 
+	@Override
+	public List<Comment> findAll(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

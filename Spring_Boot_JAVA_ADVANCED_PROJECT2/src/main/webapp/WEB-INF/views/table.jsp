@@ -12,7 +12,7 @@
 					</tr>
 					<c:forEach var="table" items="${tables.content}">
 						<tr>
-							<td>${table.number}</td>
+							<td>#${table.number}</td>
 							<td>${table.countOfPeople}</td>
 							<td>${table.isFree}</td>
 							<td><a href="/cafe/${table.cafe.id}">${table.cafe.name}</a></td>

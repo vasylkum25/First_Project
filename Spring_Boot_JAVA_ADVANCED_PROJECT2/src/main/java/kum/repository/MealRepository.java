@@ -39,4 +39,10 @@ public interface MealRepository extends JpaRepository<Meal, Integer>, JpaSpecifi
 			countQuery="SELECT count(m.id) FROM Meal m LEFT JOIN m.cuisine c LEFT JOIN m.cafe ca JOIN ca.user u WHERE u.email=?1")
 	Page<MealView> findAllMealsBeUser(String title, Pageable pageable);
 	
+	@Query(value="SELECT new kum.model.view.MealView(m.id, m.title, m.description, m.price, m.photoUrl, m.version, c.name, m.weight) FROM Meal m LEFT JOIN m.cuisine c LEFT JOIN m.cafe ca WHERE ca.id=?1",
+			countQuery="SELECT count(m.id) FROM Meal m LEFT JOIN m.cuisine c LEFT JOIN m.cafe ca WHERE ca.id=?1")
+	Page<MealView> findAllMealsByCafeId(Integer id, Pageable pageable);
+	
+//	@Query("SELECT new kum.model.view.MealView(m.id, m.title, m.description, m.price, m.photoUrl, m.version, c.name, m.weight) FROM Meal m JOIN m.order o WHERE o.id=?1")
+//	List<MealView> findAllViewsByOrderId(Integer id);
 }

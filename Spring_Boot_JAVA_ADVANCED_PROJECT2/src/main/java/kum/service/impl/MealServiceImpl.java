@@ -145,6 +145,15 @@ public class MealServiceImpl implements MealService {
 	}
 
 
+	@Override
+	public Page<MealView> findAllMealsByCafeId(Integer id, Pageable pageable) {
+		Page<MealView> views = repository.findAllMealsByCafeId(id, pageable);
+		views.forEach(this::loadIngredients);
+		views.forEach(this::loadCafe);
+		return views;
+	}
+
+
 
 
 }

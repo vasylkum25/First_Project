@@ -34,5 +34,6 @@ public interface MealService{
 	Page<MealView> findAll(Pageable pageable, MealFilter mealFilter);
 	
 	Page<MealView> findAllOwnMeal(Pageable pageable, MealFilter mealFilter, Principal principal);
-	
+
+	Page<MealView> findAllMealsByCafeId(Integer id, Pageable pageable);
 }

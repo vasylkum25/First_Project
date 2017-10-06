@@ -1,16 +1,26 @@
 <%@ include file="header.jsp"%>
+<div style="background-color:#e3f2fd;">
 <div class = "container">
 		<div class="row" >
 			<div class = "col-12">
 				<h1>${cafesId.name}</h1>
+			<div class="row" >
 				<div class="form-group row">
-							<div class="col-10 mr-auto">
-								<a href="/cafe/${cafesId.id}/tables"><button class="btn btn-sm btn-outline-success">Table</button></a>
-							</div>
-						</div>
-				<div class="progress"  style="width: 350px;">
-  <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: ${cafesId.rate*10}%" aria-valuenow="${cafesId.rate}" aria-valuemin="0" aria-valuemax="10">${cafesId.rate}</div>
-				</div> 
+					<div class="col-10 mr-auto">
+						<a href="/cafe/${cafesId.id}/tables"><button class="btn btn-sm btn-outline-success">Table</button></a>
+					</div>
+				</div>
+		<sec:authorize access="hasRole('ROLE_CAFE')">
+				<div class="form-group row">
+					<div class="col-10 mr-auto">
+						<a href="/cafe/${cafesId.id}/order"><button class="btn btn-sm btn-outline-success">Order</button></a>
+					</div>
+				</div>
+		</sec:authorize>		
+			</div>	
+		<div class="progress"  style="width: 350px;">
+  			<div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: ${cafesId.rate*10}%" aria-valuenow="${cafesId.rate}" aria-valuemin="0" aria-valuemax="10">${cafesId.rate}</div>
+		</div> 
 				<h1>${cafesId.fullDescription}</h1>
 				<h1>${cafesId.type}</h1>
 				<h1>${cafesId.open} - ${cafesId.close}</h1><br>
@@ -57,6 +67,6 @@
 		</dl>
 		</c:forEach>
 		</div>
-		
+</div>
 </body>
 </html>

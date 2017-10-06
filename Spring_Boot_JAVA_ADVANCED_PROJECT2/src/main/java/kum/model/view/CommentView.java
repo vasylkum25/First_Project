@@ -6,6 +6,8 @@ import java.time.format.DateTimeFormatter;
 
 public class CommentView {
 	
+	private Integer id;
+	
 	private String message;
 	
 	private String time;
@@ -18,11 +20,20 @@ public class CommentView {
 	public CommentView() {
 	}
 
-	public CommentView(String message, LocalDateTime time, BigDecimal rate, String user) {
+	public CommentView(Integer id, String message, LocalDateTime time, BigDecimal rate, String user) {
 		this.message = message;
 		this.time = time==null ? null : time.format(DateTimeFormatter.ofPattern("yyyy/M/d h:mm a"));
 		this.rate = rate;
 		this.user = user;
+		this.id = id;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getUser() {

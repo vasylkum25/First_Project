@@ -47,6 +47,7 @@
 						<th class="text-center">User name</th>
 						<th class="text-center">User phone</th>
 						<th class="text-center">Options</th>
+						<th class="text-center">Order</th>
 						<th class="text-center">Reserve</th>
 					</tr>
 					<c:forEach var="table" items="${tables.content}">
@@ -60,6 +61,13 @@
 							<td class="text-center">
 								<a href="/profile/ownCafe/${table.cafe.id}/tables/update/${table.id}" class="btn btn-outline-success btn-sm">Update</a>
 								<a href="/profile/ownCafe/${table.cafe.id}/tables/${table.id}/delete" class="btn btn-outline-danger btn-sm">Delete</a>
+							</td>
+							<td>
+					<c:if test="${table.isFree.equals(true)}">
+								<sec:authorize access="hasRole('ROLE_CAFE')">
+									<a href="/profile/ownCafe/${table.cafe.id}/table/${table.id}/order"><button class="btn btn-sm btn-outline-success">Order</button></a>
+								</sec:authorize>
+					</c:if>		
 							</td>
 							<c:if test="${table.isFree.equals(true)}">
 							<td><a href="/profile/ownCafe/${table.cafe.id}/tables/${table.id}"  class="btn btn-outline-danger btn-sm">Reserve</a> 
