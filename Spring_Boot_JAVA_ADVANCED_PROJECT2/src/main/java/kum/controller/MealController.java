@@ -1,11 +1,14 @@
 package kum.controller;
  
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -57,13 +60,13 @@ public class MealController {
 	}
 	
 	@GetMapping("/{id}")
-	public String showIndexMeal(Model model, @PathVariable Integer id, @PageableDefault Pageable pageable){
+	public String showIndexMeal(Model model, @PathVariable Integer id){
 		model.addAttribute("oneMeal", mealService.findOne(id));
-		model.addAttribute("comments", commentService.findCommentByMealId(id));
+		model.addAttribute("comments", commentService.findAllToMeal(id));
 		return "meal";
 	}
 	
-//	Action to commment
+//	Action to comment
 	
 	
 	@ModelAttribute("comment")
@@ -76,4 +79,26 @@ public class MealController {
 		commentService.saveCommentToMeal(commentRequest, id);
 		return "redirect:/meal/{id}";
 	}
+
+//	CommentToComment
+	
+	@ModelAttribute("commentToComment")
+	public CommentRequest getFormCommentToComment() {
+		return new CommentRequest();
+	}
+	
+	@PostMapping("/{id}/{idComment}")
+	public String saveCommentToComment(@ModelAttribute("commentToComment") @Valid CommentRequest commentRequest, BindingResult bindingResult, Model model, @PathVariable Integer id, @PathVariable Integer idComment) {
+		if (bindingResult.hasErrors()) return showIndexMeal(model, idComment);
+		commentService.saveCommentToCommentMeal(commentRequest, idComment);
+		return "redirect:/meal/{id}";
+	}
+	
+	
 }
+
+
+
+
+
+

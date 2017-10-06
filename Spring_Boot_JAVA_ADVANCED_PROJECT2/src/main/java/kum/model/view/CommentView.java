@@ -3,6 +3,7 @@ package kum.model.view;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class CommentView {
 	
@@ -15,6 +16,8 @@ public class CommentView {
 	private BigDecimal rate;
 	
 	private String user;
+	
+	private List<CommentView> childComment;
 
 	
 	public CommentView() {
@@ -26,6 +29,15 @@ public class CommentView {
 		this.rate = rate;
 		this.user = user;
 		this.id = id;
+	}
+
+	
+	public List<CommentView> getChildComment() {
+		return childComment;
+	}
+
+	public void setChildComment(List<CommentView> childComment) {
+		this.childComment = childComment;
 	}
 
 	public Integer getId() {
@@ -71,6 +83,8 @@ public class CommentView {
 	public void setRate(BigDecimal rate) {
 		this.rate = rate;
 	}
+
+	
 	
 	
 }

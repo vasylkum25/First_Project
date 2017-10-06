@@ -2,17 +2,21 @@ package kum.controller;
 
 
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import kum.model.filter.CafeFilter;
 import kum.model.filter.SimpleFilter;
@@ -56,9 +60,9 @@ public class CafeController {
 		return "cafe";
 	}
 	@GetMapping("/{id}")
-	public String showIndex(@PathVariable Integer id, Model model, @PageableDefault Pageable pageable, @ModelAttribute("filter") SimpleFilter filter){
+	public String showIndex(@PathVariable Integer id, Model model){
 		model.addAttribute("cafesId", cafeService.findCafeViewId(id));
-		model.addAttribute("comments", commentService.findCommentByCafeId(id));
+		model.addAttribute("comments", commentService.findAllToCafe(id));
 		return "cafeindex";
 		}
 
@@ -76,6 +80,19 @@ public class CafeController {
 		return "redirect:/cafe/{id}";
 	}
 
+//	For comment to comment
+
+	@ModelAttribute("commentToComment")
+	public CommentRequest getFormCommentToComment() {
+		return new CommentRequest();
+	}
+
+	@PostMapping("/{id}/{idComment}")
+	 	public String saveCommentToComment(@ModelAttribute("commentToComment") @Valid CommentRequest commentRequest, BindingResult bindingResult, Model model, @PathVariable Integer id, @PathVariable Integer idComment, SessionStatus sessionStatus) {
+	 		if (bindingResult.hasErrors()) return showIndex(idComment, model);
+	 		commentService.saveCommentToCommentCafe(commentRequest, idComment);
+	 		return "redirect:/cafe/{id}";
+	 	}
 	
 }
 

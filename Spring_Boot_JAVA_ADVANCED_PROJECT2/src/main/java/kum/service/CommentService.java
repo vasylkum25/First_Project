@@ -9,13 +9,21 @@ import kum.model.view.CommentView;
 public interface CommentService {
 
 	
-	List<CommentView> findCommentByCafeId( Integer id);
+	List<CommentView> findAllCommentByCafeId( Integer id);
 	
-	List<CommentView> findCommentByMealId( Integer id);
+	List<CommentView> findAllCommentByMealId( Integer id);
 	
 	void saveCommentToMeal(CommentRequest commentRequest, Integer id);
 
 	void saveCommentToCafe(CommentRequest commentRequest, Integer id);
 	
 	List<Comment> findAll(Integer id);
+
+	void saveCommentToCommentCafe(CommentRequest commentRequest, Integer idComment);
+	
+	void saveCommentToCommentMeal(CommentRequest commentRequest, Integer idComment);
+
+	List<CommentView> findAllToCafe(Integer id);
+
+	List<CommentView> findAllToMeal(Integer id);
 }

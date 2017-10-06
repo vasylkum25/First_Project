@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kum.entity.Cafe;
 import kum.entity.Comment;
@@ -34,12 +35,12 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public List<CommentView> findCommentByCafeId(Integer id) {
+	public List<CommentView> findAllCommentByCafeId(Integer id) {
 		return commentRepository.findCommentByCafeId(id);
 	}
 
 	@Override
-	public List<CommentView> findCommentByMealId(Integer id) {
+	public List<CommentView> findAllCommentByMealId(Integer id) {
 		return commentRepository.findCommentByMealId(id);
 	}
 
@@ -66,7 +67,7 @@ public class CommentServiceImpl implements CommentService {
 	private void updadeCafeRate(Integer id){
 		BigDecimal rate = BigDecimal.ZERO;
 		int count = 0;
-		for(CommentView commentView : findCommentByCafeId(id)){
+		for(CommentView commentView : findAllCommentByCafeId(id)){
 			if(commentView.getRate()!=null){
 				rate = rate.add(commentView.getRate());
 				count++;
@@ -93,5 +94,49 @@ public class CommentServiceImpl implements CommentService {
 		return null;
 	}
 
+	@Override
+	public void saveCommentToCommentCafe(CommentRequest commentRequest, Integer idComment) {
+		Comment comment = new Comment();
+ 		comment.setParentComent(commentRepository.findOneRequest(idComment)); 
+ 		comment.setMessage(commentRequest.getMessage());
+		comment.setUser(commentRequest.getUser());
+		comment.setTime(LocalDateTime.now());
+ 		commentRepository.save(comment);
 
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public List<CommentView> findAllToCafe(Integer id) {
+		List<CommentView> list = findAllCommentByCafeId(id);
+		 		loadChildComments(list);
+		 		return list;
+		
+	}
+
+	private void loadChildComments(List<CommentView> commentViews) {
+		 		for (CommentView commentView : commentViews) {
+		 			List<CommentView> commentViews2 = commentRepository.findAllCommentsByParent(commentView.getId());
+		 			loadChildComments(commentViews2);
+		 			commentView.setChildComment(commentViews2); 
+		 		}	
+	}
+
+	@Override
+	public void saveCommentToCommentMeal(CommentRequest commentRequest, Integer idComment) {
+		Comment comment = new Comment();
+ 		comment.setParentComent(commentRepository.findOneRequest(idComment)); 
+ 		comment.setMessage(commentRequest.getMessage());
+		comment.setUser(commentRequest.getUser());
+		comment.setTime(LocalDateTime.now());
+ 		commentRepository.save(comment);
+	}
+
+	@Override
+	public List<CommentView> findAllToMeal(Integer id) {
+		List<CommentView> list = findAllCommentByMealId(id);
+ 		loadChildComments(list);
+ 		return list;
+
+	}
 }
